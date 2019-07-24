@@ -1,80 +1,83 @@
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
+#include "cinder/Log.h"
 
 using namespace ci;
 using namespace ci::app;
 
 // We'll create a new Cinder Application by deriving from the App class.
-class BasicApp : public App {
+class Cascade : public App {
 public:
-	// Cinder will call 'mouseDrag' when the user moves the mouse while holding one of its buttons.
-	// See also: mouseMove, mouseDown, mouseUp and mouseWheel.
 	void mouseDrag(MouseEvent event) override;
-
-	// Cinder will call 'keyDown' when the user presses a key on the keyboard.
-	// See also: keyUp.
 	void keyDown(KeyEvent event) override;
-
-	// Cinder will call 'draw' each time the contents of the window need to be redrawn.
+	void setup() override;
 	void draw() override;
+	void resize() override;
 
 private:
-	// This will maintain a list of points which we will draw line segments between
-	std::vector<vec2> mPoints;
+
+	gl::BatchRef		_geometry;
+	gl::GlslProgRef		_shader;
+	CameraOrtho			_camera;
+	
 };
 
-void prepareSettings(BasicApp::Settings* settings)
+void Cascade::mouseDrag(MouseEvent event)
 {
-	settings->setMultiTouchEnabled(false);
 }
 
-void BasicApp::mouseDrag(MouseEvent event)
+void Cascade::keyDown(KeyEvent event)
 {
-	// Store the current mouse position in the list.
-	mPoints.push_back(event.getPos());
 }
 
-void BasicApp::keyDown(KeyEvent event)
+void Cascade::setup()
 {
-	if (event.getChar() == 'f') {
-		// Toggle full screen when the user presses the 'f' key.
-		setFullScreen(!isFullScreen());
+	try
+	{
+		_shader = gl::context()->getStockShader(gl::ShaderDef().color());
 	}
-	else if (event.getCode() == KeyEvent::KEY_SPACE) {
-		// Clear the list of points when the user presses the space bar.
-		mPoints.clear();
+	catch(Exception &ex)
+	{
+		CI_LOG_E("Error loading shader: " << ex.what());
 	}
-	else if (event.getCode() == KeyEvent::KEY_ESCAPE) {
-		// Exit full screen, or quit the application, when the user presses the ESC key.
-		if (isFullScreen())
-			setFullScreen(false);
-		else
-			quit();
+
+	try
+	{
+		_geometry = gl::Batch::create(geom::Rect(), _shader);
+	}
+	catch (Exception &ex)
+	{
+		CI_LOG_E("Error creating geometry: " << ex.what());
 	}
 }
 
-void BasicApp::draw()
+void Cascade::draw()
 {
-	// Clear the contents of the window. This call will clear
-	// both the color and depth buffers. 
 	gl::clear(Color::gray(0.1f));
 
-	// Set the current draw color to orange by setting values for
-	// red, green and blue directly. Values range from 0 to 1.
-	// See also: gl::ScopedColor
-	gl::color(1.0f, 0.5f, 0.25f);
+	gl::ScopedColor col(1.0f, 0.5f, 0.25f);
 
-	// We're going to draw a line through all the points in the list
-	// using a few convenience functions: 'begin' will tell OpenGL to
-	// start constructing a line strip, 'vertex' will add a point to the
-	// line strip and 'end' will execute the draw calls on the GPU.
-	gl::begin(GL_LINE_STRIP);
-	for (const vec2 &point : mPoints) {
-		gl::vertex(point);
-	}
-	gl::end();
+	gl::ScopedModelMatrix mat;
+	gl::rotate(getElapsedSeconds() / 5.0);
+
+	_geometry->draw();
 }
 
-// This line tells Cinder to actually create and run the application.
-CINDER_APP(BasicApp, RendererGl, prepareSettings)
+void Cascade::resize()
+{
+	int height = getWindowHeight();
+	int width = getWindowWidth();
+	float aspect = (float)height / (float)width;
+
+	float referenceWith = 10.0f;
+	float calculatedHeight = referenceWith * aspect;
+
+	_camera.setOrtho(-referenceWith, referenceWith, -calculatedHeight, calculatedHeight, -100, 100);
+	gl::setMatrices(_camera);
+}
+
+CINDER_APP(Cascade, RendererGl(RendererGl::Options().msaa(16)), [] (App::Settings* settings) {
+	settings->setMultiTouchEnabled(false); 
+	settings->setWindowSize(1024, 576);
+})
