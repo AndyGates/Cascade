@@ -36,6 +36,7 @@ void CascadeApp::setupGraphics()
 	try
 	{
 		_shader = gl::context()->getStockShader(gl::ShaderDef().color());
+
 	}
 	catch (Exception &ex)
 	{
@@ -100,14 +101,14 @@ void CascadeApp::setup()
 void CascadeApp::draw()
 {
 	{
-		gl::ScopedMatrices scopeMat;
+		const gl::ScopedMatrices scopeMat;
 		gl::setMatrices(_camera);
 
-		gl::ScopedFramebuffer fb(_renderTexture);
+		const gl::ScopedFramebuffer fb(_renderTexture);
 
 		gl::clear(Color::gray(0.1f));
 
-		gl::ScopedColor col(1.0f, 0.5f, 0.25f);
+		const gl::ScopedColor col(1.0f, 0.5f, 0.25f);
 
 		int num = 32;
 		float angleDelta = (2.0*M_PI) / static_cast<float>(num);
@@ -120,7 +121,7 @@ void CascadeApp::draw()
 
 		for (int i = 0; i < num; i++)
 		{
-			gl::ScopedModelMatrix mat;
+			const gl::ScopedModelMatrix mat;
 			float angle = angleDelta * static_cast<float>(i);
 
 			int spectrumIndex = static_cast<int>(spectrumStart + (spectrumDelta * i));
@@ -137,7 +138,7 @@ void CascadeApp::draw()
 		}
 	}
 	{
-		gl::clear(Color::gray(0.3f));
+		gl::clear(Color::gray(0.1f));
 		_postProcessNode->Render();
 	}
 }
@@ -153,6 +154,7 @@ void CascadeApp::resize()
 
 	_camera.setOrtho(-referenceWith, referenceWith, -calculatedHeight, calculatedHeight, -100, 100);
 
+	/*
 	try
 	{
 
@@ -164,6 +166,7 @@ void CascadeApp::resize()
 	{
 		CI_LOG_E("Error creating render texture: " << ex.what());
 	}
+	*/
 }
 
 void CascadeApp::update()
