@@ -14,9 +14,12 @@ public:
 	SourceNode(const audio::MonitorSpectralNodeRef& audioSpectralMonitor);
 	~SourceNode();
 
-	virtual void Process() override;
+	virtual void ProcessImpl() override;
 
 private:
+	size_t _volumeParameterIndex;
+	size_t _spectrumParameterIndex;
+
 	audio::MonitorSpectralNodeRef _monitorSpectralNode;
 };
 

@@ -6,19 +6,21 @@ namespace node {
 SourceNode::SourceNode(const audio::MonitorSpectralNodeRef& audioSpectralMonitor) :
 	_monitorSpectralNode(audioSpectralMonitor)
 {
-	AddParameter<float>(ParameterDirection::Output, "Volume");
-
-	_outputCollection[0]->SetValue(100.0f);
+	_volumeParameterIndex = AddParameter<float>(ParameterDirection::Output, "Volume");
+	_spectrumParameterIndex = AddParameter<std::vector<float>>(ParameterDirection::Output, "Spectrum");
 }
 
 SourceNode::~SourceNode()
 {
 }
 
-void SourceNode::Process()
+void SourceNode::ProcessImpl()
 {
 	float vol = _monitorSpectralNode->getVolume();
-	_outputCollection[0]->SetValue(vol);
+	_outputs[_volumeParameterIndex].SetValue(vol);
+
+	auto spectrum = _monitorSpectralNode->getMagSpectrum();
+	_outputs[_spectrumParameterIndex].SetValue(spectrum);
 }
 
 }

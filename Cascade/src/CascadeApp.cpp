@@ -14,6 +14,9 @@
 
 #include <vector>
 
+#include <chrono>
+using namespace std::chrono;
+
 using namespace ci;
 using namespace ci::app;
 
@@ -52,7 +55,6 @@ void CascadeApp::setupGraphics()
 		CI_LOG_E("Error creating geometry: " << ex.what());
 	}
 
-
 	try
 	{
 		int height = getWindowHeight();
@@ -89,6 +91,11 @@ void CascadeApp::setupNodes()
 {
 	_sourceNode = std::make_shared<node::SourceNode>(_monitorSpectralNode);
 	_postProcessNode = std::make_shared<node::ChromaticAberrationNode>(_renderTexture);
+
+	_nodeSystem.AddNode(_sourceNode);
+	_nodeSystem.AddNode(_postProcessNode);
+
+	_postProcessNode->ConnectInput(_sourceNode, "Volume", "Amount");
 }
 
 void CascadeApp::setup()
@@ -171,7 +178,7 @@ void CascadeApp::resize()
 
 void CascadeApp::update()
 {
-	_sourceNode->Process();
+	_nodeSystem.Process();
 
 	_spectrumData = _monitorSpectralNode->getMagSpectrum();
 	_scale = _monitorSpectralNode->getVolume();

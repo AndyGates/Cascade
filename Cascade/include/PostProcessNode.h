@@ -9,7 +9,7 @@ using namespace cinder;
 namespace cascade {
 namespace node {
 
-class PostProcessNode : public Node, IRenderNode
+class PostProcessNode : public Node, public IRenderNode
 {
 public:
 	PostProcessNode(gl::FboRef renderTexture, const std::string& pixelShader);

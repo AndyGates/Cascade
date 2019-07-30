@@ -31,6 +31,7 @@
   <ItemGroup>
     <ClInclude Include="include\CascadeApp.h" />
     <ClInclude Include="include\ChromaticAberrationNode.h" />
+    <ClInclude Include="include\Connection.h" />
     <ClInclude Include="include\IRenderNode.h" />
     <ClInclude Include="include\Node.h" />
     <ClInclude Include="include\NodeSystem.h" />

@@ -53,28 +53,31 @@
     <ClInclude Include="include\CascadeApp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Parameter.h">
-      <Filter>Header Files\Node</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Node.h">
-      <Filter>Header Files\Node</Filter>
-    </ClInclude>
-    <ClInclude Include="include\NodeSystem.h">
-      <Filter>Header Files\Node</Filter>
-    </ClInclude>
     <ClInclude Include="include\SourceNode.h">
       <Filter>Header Files\Node</Filter>
     </ClInclude>
     <ClInclude Include="include\RenderNode.h">
       <Filter>Header Files\Node</Filter>
     </ClInclude>
-    <ClInclude Include="include\IRenderNode.h">
-      <Filter>Header Files\Node</Filter>
-    </ClInclude>
     <ClInclude Include="include\PostProcessNode.h">
       <Filter>Header Files\Node</Filter>
     </ClInclude>
     <ClInclude Include="include\ChromaticAberrationNode.h">
+      <Filter>Header Files\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NodeSystem.h">
+      <Filter>Header Files\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Parameter.h">
+      <Filter>Header Files\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IRenderNode.h">
+      <Filter>Header Files\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Node.h">
+      <Filter>Header Files\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Connection.h">
       <Filter>Header Files\Node</Filter>
     </ClInclude>
   </ItemGroup>

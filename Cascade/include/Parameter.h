@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <stdexcept>
+#include "cinder/Log.h"
 
 namespace cascade {
 namespace node {
@@ -22,8 +23,17 @@ public:
 	//This just forces us to pass a parameter to the constructor 
 	template <class ParameterType>
 	Parameter(ParameterType initialValue) 
-		: _parameterValue(std::make_unique < ParameterValue<ParameterType>>())
-	{}
+		: _parameterValue(std::make_unique<ParameterValue<ParameterType>>())
+	{
+		CI_LOG_I("Constructing normally" + std::to_string((int)_parameterValue.get()));
+	}
+
+	//Move constructor so this can be used in vector
+	Parameter(Parameter&& other) noexcept
+		: _parameterValue(std::move(other._parameterValue)) 
+	{
+		CI_LOG_I("Constructing move" + std::to_string((int)_parameterValue.get()));
+	}
 	
 	~Parameter() { }
 
@@ -31,7 +41,7 @@ public:
 	void SetValue(const ParameterType& value);
 
 	template <class ParameterType>
-	const std::shared_ptr<ParameterType>& GetValue() const;
+	const std::shared_ptr<ParameterType> GetValue() const;
 	
 private:
 	class IParameterValue
@@ -45,18 +55,17 @@ private:
 	public:
 		//Grab the typeinfo once in the constructor
 		ParameterValue() : _value(), _type(typeid(ParameterType)) {};
-		~ParameterValue() {};
 
 		void SetValue(const ParameterType& value) { _value = value; };
 
 		//Return shared_ptr to value, needs to be a pointer as the value can be null (Can it? should it?) 
 		//Is this too slow?
-		const std::shared_ptr<ParameterType>& GetValue() const { return std::make_shared<ParameterType>(_value); }
+		const std::shared_ptr<ParameterType> GetValue() const { return std::make_shared<ParameterType>(_value); }
 		const std::type_info& GetType() const { return _type; }
 
 	private:
 		ParameterType _value;
-		std::type_info const& _type;
+		const std::type_info& _type;
 	};
 
 	std::unique_ptr<IParameterValue> _parameterValue;
@@ -77,7 +86,7 @@ void Parameter::SetValue(const ParameterType& value)
 };
 
 template <class ParameterType>
-const std::shared_ptr<ParameterType>& Parameter::GetValue() const
+const std::shared_ptr<ParameterType> Parameter::GetValue() const
 {
 	try
 	{
