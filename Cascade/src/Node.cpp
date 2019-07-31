@@ -6,8 +6,6 @@ namespace node {
 
 Node::Node()
 {
-	_inputs.reserve(10);
-	_outputs.reserve(10);
 }
 
 Node::~Node()
@@ -15,12 +13,16 @@ Node::~Node()
 
 }
 
-bool Node::ConnectInput(const std::shared_ptr<Node>& other, const std::string & otherOutputName, const std::string & inputName)
+bool Node::ConnectInput(std::shared_ptr<Node> other, const std::string & otherOutputName, const std::string & inputName)
 {
 	size_t inputIndex = GetParameterIndex(ParameterDirection::Input, inputName);
-	size_t otherOutputIndex = other->GetParameterIndex(ParameterDirection::Output, otherOutputName);
 
-	std::make_shared<Connection>(other, otherOutputIndex, inputIndex);
+	if (!_inputConnected[inputIndex])
+	{
+		size_t otherOutputIndex = other->GetParameterIndex(ParameterDirection::Output, otherOutputName);
+		_inputConnections.push_back(std::make_shared<Connection>(other, otherOutputIndex, inputIndex));
+		_inputConnected[inputIndex] = true;
+	}
 	return false;
 }
 
@@ -44,7 +46,32 @@ void Node::Process()
 	if (_processState == ProcessState::NotProcessed)
 	{
 		_processState = ProcessState::ProcessStarted;
+
+		for (auto c : _inputConnections)
+		{
+			//Make sure we recursively process each input connection before this one
+			c->OutputNode->Process();
+
+			auto outParam = c->OutputNode->GetParameter(ParameterDirection::Output, c->OutputIndex);
+
+			//Pass the in the parameter so the value can be recieved in a context where the value type is known
+			_inputs[c->InputIndex]->SetValue(outParam);
+		}
+
 		ProcessImpl();
+	}
+}
+
+std::shared_ptr<Parameter> Node::GetParameter(const ParameterDirection direction, size_t index)
+{
+	//TODO Checks here
+	if (direction == ParameterDirection::Input)
+	{
+		return _inputs[index];
+	}
+	else
+	{
+		return _outputs[index];
 	}
 }
 

@@ -31,6 +31,8 @@ void PostProcessNode::Render()
 	gl::ScopedTextureBind tex0(_renderTexture->getColorTexture(), static_cast<uint8_t>(0));
 	gl::ScopedGlslProg prog(_prog);
 
+	SetUniforms();
+
 	gl::drawSolidRect(_renderTexture->getBounds());
 }
 

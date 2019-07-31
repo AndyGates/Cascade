@@ -17,10 +17,10 @@ SourceNode::~SourceNode()
 void SourceNode::ProcessImpl()
 {
 	float vol = _monitorSpectralNode->getVolume();
-	_outputs[_volumeParameterIndex].SetValue(vol);
+	_outputs[_volumeParameterIndex]->SetValue(vol);
 
 	auto spectrum = _monitorSpectralNode->getMagSpectrum();
-	_outputs[_spectrumParameterIndex].SetValue(spectrum);
+	_outputs[_spectrumParameterIndex]->SetValue(spectrum);
 }
 
 }

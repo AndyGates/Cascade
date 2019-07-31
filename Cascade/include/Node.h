@@ -16,9 +16,10 @@ public:
 
 	//Have index versions as optimisation? 
 	//Expose index variables from node
-	bool ConnectInput(const std::shared_ptr<Node>& other, const std::string& otherOutputName, const std::string& inputName);
+	bool ConnectInput(std::shared_ptr<Node> other, const std::string& otherOutputName, const std::string& inputName);
 
 	size_t GetParameterIndex(const ParameterDirection direction, const std::string& name);
+	std::shared_ptr<Parameter> GetParameter(const ParameterDirection direction, size_t index);
 
 	//If the node has no outputs, we can class it as an output node. This means nothing is depending on its process result
 	bool IsOutputNode() const { return _outputs.empty(); }
@@ -27,11 +28,13 @@ public:
 	void ProcessComplete() { _processState = ProcessState::NotProcessed; };
 
 protected:
-	std::vector<Parameter> _inputs;
-	std::vector<Parameter> _outputs;
+	std::vector<std::shared_ptr<Parameter>> _inputs;
+	std::vector<std::shared_ptr<Parameter>> _outputs;
 
 	std::vector<std::string> _inputNames;
 	std::vector<std::string> _outputNames;
+
+	std::vector<bool> _inputConnected;
 
 	//Maybe move this and parameter management to a separate object
 	//Like "ParameterSet"?? 
@@ -64,15 +67,21 @@ size_t Node::AddParameter(const ParameterDirection& dir, const std::string & nam
 	if (dir == ParameterDirection::Input)
 	{
 		//emplace_back avoids copy/move constructors 
-		_inputs.emplace_back(initial);
+		_inputs.push_back(std::make_shared<Parameter>(initial));
 		_inputNames.push_back(name);
+		_inputConnected.push_back(false);
 
+		//TODO decide about assertions 
+		assert(_inputs.size() == _inputNames.size() == _inputConnected.size());
+		
 		index = _inputs.size() - 1;
 	}
 	else
 	{
-		_outputs.emplace_back(initial);
+		_outputs.push_back(std::make_shared<Parameter>(initial));
 		_outputNames.push_back(name);
+
+		assert(_outputs.size() == _outputNames.size());
 
 		index = _outputs.size() - 1;
 	}

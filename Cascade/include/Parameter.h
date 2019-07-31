@@ -25,17 +25,21 @@ public:
 	Parameter(ParameterType initialValue) 
 		: _parameterValue(std::make_unique<ParameterValue<ParameterType>>())
 	{
-		CI_LOG_I("Constructing normally" + std::to_string((int)_parameterValue.get()));
 	}
 
 	//Move constructor so this can be used in vector
 	Parameter(Parameter&& other) noexcept
 		: _parameterValue(std::move(other._parameterValue)) 
 	{
-		CI_LOG_I("Constructing move" + std::to_string((int)_parameterValue.get()));
 	}
 	
 	~Parameter() { }
+
+
+	void SetValue(std::shared_ptr<Parameter> parameter)
+	{
+		_parameterValue->SetValue(*parameter);
+	};
 
 	template <class ParameterType>
 	void SetValue(const ParameterType& value);
@@ -46,7 +50,9 @@ public:
 private:
 	class IParameterValue
 	{
+	public:
 		virtual std::type_info const& GetType() const = 0;
+		virtual void SetValue(const Parameter& param) = 0;
 	};
 
 	template <class ParameterType>
@@ -57,6 +63,20 @@ private:
 		ParameterValue() : _value(), _type(typeid(ParameterType)) {};
 
 		void SetValue(const ParameterType& value) { _value = value; };
+		
+		//TODO move out? all these classes?
+		void SetValue(const Parameter& param) override 
+		{
+			ParameterValue<ParameterType>& paramRef = dynamic_cast<ParameterValue<ParameterType>&>(*param._parameterValue);
+			try {
+				_value = *paramRef.GetValue();
+			}
+			catch (const std::bad_cast&)
+			{
+				//TODO Throw custom exception here
+				throw std::invalid_argument("Could not set parameter value, type mismatch");
+			}
+		};
 
 		//Return shared_ptr to value, needs to be a pointer as the value can be null (Can it? should it?) 
 		//Is this too slow?
@@ -81,6 +101,7 @@ void Parameter::SetValue(const ParameterType& value)
 	}
 	catch (const std::bad_cast&)
 	{
+		//TODO Throw custom exception here
 		throw std::invalid_argument("Could not set parameter value, type mismatch");
 	}
 };
@@ -95,6 +116,7 @@ const std::shared_ptr<ParameterType> Parameter::GetValue() const
 	}
 	catch (const std::bad_cast&)
 	{
+		//TODO Throw custom exception here
 		throw std::invalid_argument("Could not get parameter value, type mismatch");
 	}
 }

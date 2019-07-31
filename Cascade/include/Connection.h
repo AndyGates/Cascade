@@ -15,6 +15,7 @@ public:
 	{
 	}
 
+	//Store pointer to output node so we can trigger the process
 	std::shared_ptr<Node> OutputNode;
 	size_t OutputIndex;
 	size_t InputIndex;
