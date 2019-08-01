@@ -3,9 +3,11 @@
 namespace cascade {
 namespace node {
 
-ChromaticAberrationNode::ChromaticAberrationNode(const gl::FboRef& renderTexture) : PostProcessNode(renderTexture, "ChromaticAberration.frag"), _amountParameterIndex()
+ChromaticAberrationNode::ChromaticAberrationNode(gl::FboRef renderTexture, gl::FboRef textureBuffer, float amount) : PostProcessNode(renderTexture, textureBuffer, "ChromaticAberration.frag"),
+_amountParameterIndex(),
+_amount(amount)
 {
-	_amountParameterIndex = AddParameter<float>(ParameterDirection::Input, "Amount");
+	_amountParameterIndex = AddParameter<float>(ParameterDirection::Input, "Amount", amount);
 }
 
 ChromaticAberrationNode::~ChromaticAberrationNode()

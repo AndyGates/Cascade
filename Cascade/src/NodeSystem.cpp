@@ -50,7 +50,10 @@ void NodeSystem::Process()
 
 void NodeSystem::Render()
 {
-
+	for (auto n : _renderNodes)
+	{
+		n->Render();
+	}
 }
 
 }

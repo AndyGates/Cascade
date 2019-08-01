@@ -1,6 +1,7 @@
 #include "CascadeApp.h"
 #include "SourceNode.h"
 #include "ChromaticAberrationNode.h"
+#include "VignetteNode.h"
 
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
@@ -29,8 +30,12 @@ void CascadeApp::mouseDrag(MouseEvent event)
 
 void CascadeApp::keyDown(KeyEvent event)
 {
-	gl::Texture2dRef ref = _renderTexture->getColorTexture();
+	gl::Texture2dRef ref = _primaryRenderTexture->getColorTexture();
 	auto outPath = getHomeDirectory() / "texture.png";
+	writeImage(outPath, ref->createSource());
+
+	ref = _secondaryRenderTexture->getColorTexture();
+	outPath = getHomeDirectory() / "texture2.png";
 	writeImage(outPath, ref->createSource());
 }
 
@@ -63,7 +68,8 @@ void CascadeApp::setupGraphics()
 		gl::Fbo::Format fmt;
 		fmt.samples(16);
 
-		_renderTexture = gl::Fbo::create(width, height, fmt);
+		_primaryRenderTexture = gl::Fbo::create(width, height, fmt);
+		_secondaryRenderTexture = gl::Fbo::create(width, height, fmt);
 	}
 	catch (Exception &ex)
 	{
@@ -89,13 +95,21 @@ void CascadeApp::setupAudio()
 
 void CascadeApp::setupNodes()
 {
-	_sourceNode = std::make_shared<node::SourceNode>(_monitorSpectralNode);
-	_postProcessNode = std::make_shared<node::ChromaticAberrationNode>(_renderTexture);
+	//Source nodes
+	auto sourceNode = std::make_shared<node::SourceNode>(_monitorSpectralNode);
 
-	_nodeSystem.AddNode(_sourceNode);
-	_nodeSystem.AddNode(_postProcessNode);
+	//Geometry
+	//TODO geometry
+	
+	//Post Process
+	auto chromaticAberrationNode = std::make_shared<node::ChromaticAberrationNode>(_secondaryRenderTexture, _primaryRenderTexture);
+	auto vignetteNode = std::make_shared<node::VignetteNode>(nullptr, _secondaryRenderTexture, getWindowSize(), 0.4f);
+	
+	_nodeSystem.AddNode(sourceNode);
+	_nodeSystem.AddNode(chromaticAberrationNode);
+	//_nodeSystem.AddNode(vignetteNode);
 
-	_postProcessNode->ConnectInput(_sourceNode, "Volume", "Amount");
+	chromaticAberrationNode->ConnectInput(sourceNode, "Volume", "Amount");
 }
 
 void CascadeApp::setup()
@@ -111,11 +125,11 @@ void CascadeApp::draw()
 		const gl::ScopedMatrices scopeMat;
 		gl::setMatrices(_camera);
 
-		const gl::ScopedFramebuffer fb(_renderTexture);
+		const gl::ScopedFramebuffer fb(_primaryRenderTexture);
 
-		gl::clear(Color::gray(0.1f));
+		gl::clear(Color::hex(0x272727));
 
-		const gl::ScopedColor col(1.0f, 0.5f, 0.25f);
+		const gl::ScopedColor col(Color::hex(0xFF652F));
 
 		int num = 32;
 		float angleDelta = (2.0*M_PI) / static_cast<float>(num);
@@ -145,8 +159,8 @@ void CascadeApp::draw()
 		}
 	}
 	{
-		gl::clear(Color::gray(0.1f));
-		_postProcessNode->Render();
+		gl::clear(Color(1.0f, 0.0f, 1.0f));
+		_nodeSystem.Render();
 	}
 }
 

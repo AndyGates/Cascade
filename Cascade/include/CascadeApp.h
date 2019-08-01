@@ -15,8 +15,6 @@ namespace cascade
 
 namespace node
 {
-class SourceNode;
-class ChromaticAberrationNode;
 class IRenderNode;
 }
 
@@ -40,16 +38,14 @@ private:
 	gl::GlslProgRef		_shader;
 	CameraOrtho			_camera;
 
-	gl::FboRef			_renderTexture;
+	gl::FboRef			_primaryRenderTexture;
+	//second render texture for post process "ping-pong"
+	gl::FboRef			_secondaryRenderTexture;
 
 	audio::InputDeviceNodeRef		_inputDevice;
 	audio::MonitorSpectralNodeRef	_monitorSpectralNode;
 
 	node::NodeSystem _nodeSystem;
-
-	std::shared_ptr<node::SourceNode> _sourceNode;
-	std::shared_ptr<node::ChromaticAberrationNode> _postProcessNode;
-
 	std::vector<std::weak_ptr<node::IRenderNode>> _renderNodes;
 
 	float _scale = 1.0f;

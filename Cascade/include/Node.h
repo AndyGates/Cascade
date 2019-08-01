@@ -41,7 +41,7 @@ protected:
 	std::vector<std::shared_ptr<Connection>> _inputConnections;
 	
 	template <class ParameterType>
-	size_t AddParameter(const ParameterDirection& dir, const std::string& name);
+	size_t AddParameter(const ParameterDirection& dir, const std::string& name, const ParameterType& initialValue = {});
 
 	virtual void ProcessImpl() = 0;
 
@@ -57,17 +57,17 @@ private:
 };
 
 template<class ParameterType>
-size_t Node::AddParameter(const ParameterDirection& dir, const std::string & name)
+size_t Node::AddParameter(const ParameterDirection& dir, const std::string & name, const ParameterType& initialValue)
 {
-	//Default value for whatever tyoe we are assigning to the parameter.
+	//Pass in a default value for whatever tyoe we are assigning to the parameter.
 	//This enables type deduction in the constructor. Could pass in a custom initial if necessary
-	ParameterType initial = {};
+	
 	size_t index = -1;
 
 	if (dir == ParameterDirection::Input)
 	{
 		//emplace_back avoids copy/move constructors 
-		_inputs.push_back(std::make_shared<Parameter>(initial));
+		_inputs.push_back(std::make_shared<Parameter>(initialValue));
 		_inputNames.push_back(name);
 		_inputConnected.push_back(false);
 
@@ -78,7 +78,7 @@ size_t Node::AddParameter(const ParameterDirection& dir, const std::string & nam
 	}
 	else
 	{
-		_outputs.push_back(std::make_shared<Parameter>(initial));
+		_outputs.push_back(std::make_shared<Parameter>(initialValue));
 		_outputNames.push_back(name);
 
 		assert(_outputs.size() == _outputNames.size());

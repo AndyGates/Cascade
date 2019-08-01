@@ -27,6 +27,7 @@
     <ClCompile Include="src\SourceNode.cpp" />
     <ClCompile Include="src\CascadeApp.cpp" />
     <ClCompile Include="src\Node.cpp" />
+    <ClCompile Include="src\VignetteNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\CascadeApp.h" />
@@ -39,6 +40,7 @@
     <ClInclude Include="include\RenderNode.h" />
     <ClInclude Include="include\SourceNode.h" />
     <ClInclude Include="include\PostProcessNode.h" />
+    <ClInclude Include="include\VignetteNode.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\ChromaticAberration.frag">
@@ -48,6 +50,9 @@
     <None Include="assets\Passthrough.vert">
       <DeploymentContent>true</DeploymentContent>
       <FileType>Discomap</FileType>
+    </None>
+    <None Include="assets\Vignette.frag">
+      <DeploymentContent>true</DeploymentContent>
     </None>
   </ItemGroup>
   <PropertyGroup Label="Globals">

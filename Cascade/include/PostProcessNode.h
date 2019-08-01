@@ -12,7 +12,7 @@ namespace node {
 class PostProcessNode : public Node, public IRenderNode
 {
 public:
-	PostProcessNode(gl::FboRef renderTexture, const std::string& pixelShader);
+	PostProcessNode(gl::FboRef renderTexture, gl::FboRef textureBuffer, const std::string& pixelShader);
 	virtual ~PostProcessNode() override;
 	 
 	void Render() override;
@@ -26,6 +26,7 @@ protected:
 private:
 	gl::GlslProgRef	_prog;
 	gl::FboRef		_renderTexture;
+	gl::FboRef		_textureBuffer;
 };
 
 template<class T>

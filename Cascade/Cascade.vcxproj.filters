@@ -48,6 +48,9 @@
     <ClCompile Include="src\ChromaticAberrationNode.cpp">
       <Filter>Source Files\Node</Filter>
     </ClCompile>
+    <ClCompile Include="src\VignetteNode.cpp">
+      <Filter>Source Files\Node</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\CascadeApp.h">
@@ -80,12 +83,18 @@
     <ClInclude Include="include\Connection.h">
       <Filter>Header Files\Node</Filter>
     </ClInclude>
+    <ClInclude Include="include\VignetteNode.h">
+      <Filter>Header Files\Node</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\Passthrough.vert">
       <Filter>Asset Files</Filter>
     </None>
     <None Include="assets\ChromaticAberration.frag">
+      <Filter>Asset Files</Filter>
+    </None>
+    <None Include="assets\Vignette.frag">
       <Filter>Asset Files</Filter>
     </None>
   </ItemGroup>

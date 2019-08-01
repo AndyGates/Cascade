@@ -9,8 +9,8 @@ using namespace cinder::app;
 namespace cascade {
 namespace node {
 
-PostProcessNode::PostProcessNode(gl::FboRef renderTexture, const std::string& pixelShaderAsset) :
-	_renderTexture(renderTexture)
+PostProcessNode::PostProcessNode(gl::FboRef renderTexture, gl::FboRef textureBuffer, const std::string& pixelShaderAsset) :
+	_renderTexture(renderTexture), _textureBuffer(textureBuffer)
 {
 	try
 	{
@@ -28,12 +28,14 @@ PostProcessNode::~PostProcessNode()
 
 void PostProcessNode::Render()
 {
-	gl::ScopedTextureBind tex0(_renderTexture->getColorTexture(), static_cast<uint8_t>(0));
+	gl::ScopedFramebuffer fb(_renderTexture);
+
+	gl::ScopedTextureBind tex0(_textureBuffer->getColorTexture(), static_cast<uint8_t>(0));
 	gl::ScopedGlslProg prog(_prog);
 
 	SetUniforms();
 
-	gl::drawSolidRect(_renderTexture->getBounds());
+	gl::drawSolidRect(_textureBuffer->getBounds());
 }
 
 }

@@ -5,11 +5,11 @@
 namespace cascade {
 namespace node {
 
-class ChromaticAberrationNode : public PostProcessNode
+class VignetteNode : public PostProcessNode
 {
 public:
-	ChromaticAberrationNode(gl::FboRef renderTexture, gl::FboRef textureBuffer, float amount = 0);
-	~ChromaticAberrationNode() override;
+	VignetteNode(gl::FboRef renderTexture, gl::FboRef textureBuffer, const vec2& resolution, float amount = 0);
+	~VignetteNode() override;
 
 	void ProcessImpl() override;
 
@@ -19,6 +19,7 @@ protected:
 private:
 	size_t _amountParameterIndex;
 	float _amount;
+	vec2 _resolution;
 };
 
 }
