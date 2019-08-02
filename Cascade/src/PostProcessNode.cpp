@@ -28,7 +28,10 @@ PostProcessNode::~PostProcessNode()
 
 void PostProcessNode::Render()
 {
-	gl::ScopedFramebuffer fb(_renderTexture);
+	if (_renderTexture != nullptr)
+	{
+		_renderTexture->bindFramebuffer();
+	}
 
 	gl::ScopedTextureBind tex0(_textureBuffer->getColorTexture(), static_cast<uint8_t>(0));
 	gl::ScopedGlslProg prog(_prog);
@@ -36,6 +39,11 @@ void PostProcessNode::Render()
 	SetUniforms();
 
 	gl::drawSolidRect(_textureBuffer->getBounds());
+	
+	if (_renderTexture != nullptr)
+	{
+		_renderTexture->unbindFramebuffer();
+	}
 }
 
 }

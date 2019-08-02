@@ -107,7 +107,7 @@ void CascadeApp::setupNodes()
 	
 	_nodeSystem.AddNode(sourceNode);
 	_nodeSystem.AddNode(chromaticAberrationNode);
-	//_nodeSystem.AddNode(vignetteNode);
+	_nodeSystem.AddNode(vignetteNode);
 
 	chromaticAberrationNode->ConnectInput(sourceNode, "Volume", "Amount");
 }
@@ -127,9 +127,9 @@ void CascadeApp::draw()
 
 		const gl::ScopedFramebuffer fb(_primaryRenderTexture);
 
-		gl::clear(Color::hex(0x272727));
+		gl::clear(Color::hex(0x00171F));
 
-		const gl::ScopedColor col(Color::hex(0xFF652F));
+		const gl::ScopedColor col(Color::hex(0x00A8E8));
 
 		int num = 32;
 		float angleDelta = (2.0*M_PI) / static_cast<float>(num);
