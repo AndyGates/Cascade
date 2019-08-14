@@ -72,7 +72,7 @@ size_t Node::AddParameter(const ParameterDirection& dir, const std::string & nam
 		_inputConnected.push_back(false);
 
 		//TODO decide about assertions 
-		assert(_inputs.size() == _inputNames.size() == _inputConnected.size());
+		assert(_inputs.size() == _inputNames.size() && _inputs.size() == _inputConnected.size());
 		
 		index = _inputs.size() - 1;
 	}

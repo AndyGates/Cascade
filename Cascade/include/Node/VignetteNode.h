@@ -8,7 +8,7 @@ namespace node {
 class VignetteNode : public PostProcessNode
 {
 public:
-	VignetteNode(gl::FboRef renderTexture, gl::FboRef textureBuffer, const vec2& resolution, float amount = 0);
+	VignetteNode(gl::FboRef renderTarget, gl::FboRef textureBuffer, const vec2& resolution, float amount = 0);
 	~VignetteNode() override;
 
 	void ProcessImpl() override;

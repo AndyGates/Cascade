@@ -1,9 +1,9 @@
-#include "ChromaticAberrationNode.h"
+#include "Node/ChromaticAberrationNode.h"
 
 namespace cascade {
 namespace node {
 
-ChromaticAberrationNode::ChromaticAberrationNode(gl::FboRef renderTexture, gl::FboRef textureBuffer, float amount) : PostProcessNode(renderTexture, textureBuffer, "ChromaticAberration.frag"),
+ChromaticAberrationNode::ChromaticAberrationNode(gl::FboRef renderTarget, gl::FboRef textureBuffer, float amount) : PostProcessNode(renderTarget, textureBuffer, "ChromaticAberration.frag"),
 _amountParameterIndex(),
 _amount(amount)
 {
@@ -17,8 +17,7 @@ ChromaticAberrationNode::~ChromaticAberrationNode()
 void ChromaticAberrationNode::ProcessImpl()
 {
 	auto ptr = _inputs[_amountParameterIndex]->GetValue<float>();
-	const float in = *ptr;
-	_amount = in / 40.0f;
+	_amount = *ptr;
 }
 
 void ChromaticAberrationNode::SetUniforms()

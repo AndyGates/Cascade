@@ -1,7 +1,9 @@
 #include "CascadeApp.h"
-#include "SourceNode.h"
-#include "ChromaticAberrationNode.h"
-#include "VignetteNode.h"
+#include "Node/SourceNode.h"
+#include "Node/ChromaticAberrationNode.h"
+#include "Node/VignetteNode.h"
+#include "Node/TiltShiftNode.h"
+#include "Node/Data/MultiplyNode.h"
 
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
@@ -98,18 +100,26 @@ void CascadeApp::setupNodes()
 	//Source nodes
 	auto sourceNode = std::make_shared<node::SourceNode>(_monitorSpectralNode);
 
+	//Data nodes
+	auto multiply = std::make_shared<node::MultiplyNode<float>>(0.25f);
+
+	
 	//Geometry
 	//TODO geometry
 	
 	//Post Process
-	auto chromaticAberrationNode = std::make_shared<node::ChromaticAberrationNode>(_secondaryRenderTexture, _primaryRenderTexture);
-	auto vignetteNode = std::make_shared<node::VignetteNode>(nullptr, _secondaryRenderTexture, getWindowSize(), 0.4f);
+	auto tiltShift = std::make_shared<node::TiltShiftNode>(_secondaryRenderTexture, _primaryRenderTexture, 0.001f, 0.1f);
+	auto chromaticAberrationNode = std::make_shared<node::ChromaticAberrationNode>(nullptr, _primaryRenderTexture);
+	//auto vignetteNode = std::make_shared<node::VignetteNode>(nullptr, _secondaryRenderTexture, getWindowSize(), 0.4f);
 	
 	_nodeSystem.AddNode(sourceNode);
+	_nodeSystem.AddNode(multiply);
+	_nodeSystem.AddNode(tiltShift);
 	_nodeSystem.AddNode(chromaticAberrationNode);
-	_nodeSystem.AddNode(vignetteNode);
+//	_nodeSystem.AddNode(vignetteNode);
 
-	chromaticAberrationNode->ConnectInput(sourceNode, "Volume", "Amount");
+	multiply->ConnectInput(sourceNode, "Volume", "Input");
+	chromaticAberrationNode->ConnectInput(multiply, "Value", "Amount");
 }
 
 void CascadeApp::setup()
@@ -158,6 +168,7 @@ void CascadeApp::draw()
 			_geometry->draw();
 		}
 	}
+
 	{
 		gl::clear(Color(1.0f, 0.0f, 1.0f));
 		_nodeSystem.Render();

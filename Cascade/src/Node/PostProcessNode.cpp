@@ -1,20 +1,18 @@
-#include "PostProcessNode.h"
+#include "Node/PostProcessNode.h"
 #include "cinder/Filesystem.h"
 #include "cinder/app/App.h"
 
 #include <exception>
 
-using namespace cinder::app;
-
 namespace cascade {
 namespace node {
 
-PostProcessNode::PostProcessNode(gl::FboRef renderTexture, gl::FboRef textureBuffer, const std::string& pixelShaderAsset) :
-	_renderTexture(renderTexture), _textureBuffer(textureBuffer)
+PostProcessNode::PostProcessNode(gl::FboRef renderTarget, gl::FboRef textureBuffer, const std::string& pixelShaderAsset) :
+	_renderTarget(renderTarget), _textureBuffer(textureBuffer)
 {
 	try
 	{
-		_prog = gl::GlslProg::create(loadAsset("Passthrough.vert"), loadAsset(pixelShaderAsset));
+		_prog = gl::GlslProg::create(cinder::app::loadAsset("Passthrough.vert"), cinder::app::loadAsset(pixelShaderAsset));
 	}
 	catch (Exception &ex)
 	{
@@ -28,9 +26,9 @@ PostProcessNode::~PostProcessNode()
 
 void PostProcessNode::Render()
 {
-	if (_renderTexture != nullptr)
+	if (_renderTarget != nullptr)
 	{
-		_renderTexture->bindFramebuffer();
+		_renderTarget->bindFramebuffer();
 	}
 
 	gl::ScopedTextureBind tex0(_textureBuffer->getColorTexture(), static_cast<uint8_t>(0));
@@ -40,9 +38,9 @@ void PostProcessNode::Render()
 
 	gl::drawSolidRect(_textureBuffer->getBounds());
 	
-	if (_renderTexture != nullptr)
+	if (_renderTarget != nullptr)
 	{
-		_renderTexture->unbindFramebuffer();
+		_renderTarget->unbindFramebuffer();
 	}
 }
 

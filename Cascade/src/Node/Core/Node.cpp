@@ -1,5 +1,5 @@
-#include "Node.h"
-#include "Connection.h"
+#include "Node/Core/Node.h"
+#include "Node/Core/Connection.h"
 
 namespace cascade {
 namespace node {

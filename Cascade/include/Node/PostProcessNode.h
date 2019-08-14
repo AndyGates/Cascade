@@ -1,6 +1,6 @@
 #pragma once
-#include "IRenderNode.h"
-#include "Node.h"
+#include "Core/IRenderNode.h"
+#include "Core/Node.h"
 
 #include "cinder/gl/gl.h"
 
@@ -12,7 +12,7 @@ namespace node {
 class PostProcessNode : public Node, public IRenderNode
 {
 public:
-	PostProcessNode(gl::FboRef renderTexture, gl::FboRef textureBuffer, const std::string& pixelShader);
+	PostProcessNode(gl::FboRef renderTarget, gl::FboRef textureBuffer, const std::string& pixelShader);
 	virtual ~PostProcessNode() override;
 	 
 	void Render() override;
@@ -25,7 +25,7 @@ protected:
 
 private:
 	gl::GlslProgRef	_prog;
-	gl::FboRef		_renderTexture;
+	gl::FboRef		_renderTarget;
 	gl::FboRef		_textureBuffer;
 };
 

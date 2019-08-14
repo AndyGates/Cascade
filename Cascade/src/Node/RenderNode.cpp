@@ -1,4 +1,4 @@
-#include "..\include\RenderNode.h"
+#include "Node/RenderNode.h"
 
 RenderNode::RenderNode()
 {

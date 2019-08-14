@@ -5,7 +5,7 @@
 #include "cinder/gl/gl.h"
 #include "cinder/audio/audio.h"
 
-#include "NodeSystem.h"
+#include "Node/Core/NodeSystem.h"
 
 using namespace ci::app;
 using namespace ci;

@@ -1,6 +1,6 @@
-#include "NodeSystem.h"
-#include "Node.h"
-#include "IRenderNode.h"
+#include "Node/Core/NodeSystem.h"
+#include "Node/Core/Node.h"
+#include "Node/Core/IRenderNode.h"
 
 namespace cascade {
 namespace node {

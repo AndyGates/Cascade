@@ -10,8 +10,8 @@ out vec4 colorOut;
 void main()
 {  
     vec4 color;
-    color.r = texture(tex0, vec2(uv.x + amount, uv.y)).r;
-    color.g = texture(tex0, uv).g;
+    color.g = texture(tex0, vec2(uv.x + amount, uv.y)).g;
+    color.r = texture(tex0, uv).r;
     color.b = texture(tex0, vec2(uv.x - amount, uv.y)).b;
     color.a = texture(tex0, uv).a;
 

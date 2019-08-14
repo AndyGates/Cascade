@@ -22,69 +22,105 @@
     <Filter Include="Header Files\Node">
       <UniqueIdentifier>{9ca08cfe-daf5-487d-be20-a1c972ff82c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Node\Core">
+      <UniqueIdentifier>{152bd417-bf92-49c3-b2d9-e0769e7a2dc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Node\Core">
+      <UniqueIdentifier>{83c78c6c-9a9c-428b-abd7-4753b04dab2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Node\Source">
+      <UniqueIdentifier>{ccf99539-f224-412d-8300-23625193dc16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Node\Source">
+      <UniqueIdentifier>{e16fc912-01fb-4c00-961c-b5dc1344c061}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Node\Data">
+      <UniqueIdentifier>{a9af7670-c3c4-48a4-9337-8edc4759a032}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Node\Data">
+      <UniqueIdentifier>{deff07fb-1948-4670-bbc5-b411acbd35b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CascadeApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Node.cpp">
+    <ClCompile Include="src\Node\RenderNode.cpp">
       <Filter>Source Files\Node</Filter>
     </ClCompile>
-    <ClCompile Include="src\NodeSystem.cpp">
+    <ClCompile Include="src\Node\ChromaticAberrationNode.cpp">
       <Filter>Source Files\Node</Filter>
     </ClCompile>
-    <ClCompile Include="src\Parameter.cpp">
+    <ClCompile Include="src\Node\PostProcessNode.cpp">
       <Filter>Source Files\Node</Filter>
     </ClCompile>
-    <ClCompile Include="src\SourceNode.cpp">
+    <ClCompile Include="src\Node\SourceNode.cpp">
       <Filter>Source Files\Node</Filter>
     </ClCompile>
-    <ClCompile Include="src\RenderNode.cpp">
+    <ClCompile Include="src\Node\TiltShiftNode.cpp">
       <Filter>Source Files\Node</Filter>
     </ClCompile>
-    <ClCompile Include="src\PostProcessNode.cpp">
+    <ClCompile Include="src\Node\VignetteNode.cpp">
       <Filter>Source Files\Node</Filter>
     </ClCompile>
-    <ClCompile Include="src\ChromaticAberrationNode.cpp">
-      <Filter>Source Files\Node</Filter>
+    <ClCompile Include="src\Node\Core\Node.cpp">
+      <Filter>Source Files\Node\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\VignetteNode.cpp">
-      <Filter>Source Files\Node</Filter>
+    <ClCompile Include="src\Node\Core\NodeSystem.cpp">
+      <Filter>Source Files\Node\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Node\Core\Parameter.cpp">
+      <Filter>Source Files\Node\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="include\Node\Source\ElapsedTimeNode.h">
+      <Filter>Header Files\Node\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Node\Source\ElapsedTimeNode.cpp">
+      <Filter>Source Files\Node\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Node\Data\MultiplyNode.cpp">
+      <Filter>Source Files\Node\Data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\CascadeApp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\SourceNode.h">
+    <ClInclude Include="include\Node\Core\Connection.h">
+      <Filter>Header Files\Node\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Node\Core\IRenderNode.h">
+      <Filter>Header Files\Node\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Node\Core\Node.h">
+      <Filter>Header Files\Node\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Node\Core\NodeSystem.h">
+      <Filter>Header Files\Node\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Node\Core\Parameter.h">
+      <Filter>Header Files\Node\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Node\ChromaticAberrationNode.h">
       <Filter>Header Files\Node</Filter>
     </ClInclude>
-    <ClInclude Include="include\RenderNode.h">
+    <ClInclude Include="include\Node\PostProcessNode.h">
       <Filter>Header Files\Node</Filter>
     </ClInclude>
-    <ClInclude Include="include\PostProcessNode.h">
+    <ClInclude Include="include\Node\RenderNode.h">
       <Filter>Header Files\Node</Filter>
     </ClInclude>
-    <ClInclude Include="include\ChromaticAberrationNode.h">
+    <ClInclude Include="include\Node\SourceNode.h">
       <Filter>Header Files\Node</Filter>
     </ClInclude>
-    <ClInclude Include="include\NodeSystem.h">
+    <ClInclude Include="include\Node\TiltShiftNode.h">
       <Filter>Header Files\Node</Filter>
     </ClInclude>
-    <ClInclude Include="include\Parameter.h">
+    <ClInclude Include="include\Node\VignetteNode.h">
       <Filter>Header Files\Node</Filter>
     </ClInclude>
-    <ClInclude Include="include\IRenderNode.h">
-      <Filter>Header Files\Node</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Node.h">
-      <Filter>Header Files\Node</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Connection.h">
-      <Filter>Header Files\Node</Filter>
-    </ClInclude>
-    <ClInclude Include="include\VignetteNode.h">
-      <Filter>Header Files\Node</Filter>
+    <ClInclude Include="include\Node\Data\MultiplyNode.h">
+      <Filter>Header Files\Node\Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -95,6 +131,9 @@
       <Filter>Asset Files</Filter>
     </None>
     <None Include="assets\Vignette.frag">
+      <Filter>Asset Files</Filter>
+    </None>
+    <None Include="assets\TiltShift.frag">
       <Filter>Asset Files</Filter>
     </None>
   </ItemGroup>
