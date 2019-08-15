@@ -50,6 +50,8 @@ private:
 
 	float _scale = 1.0f;
 	std::vector<float> _spectrumData;
+
+	float _rot = 0;
 };
 
 }

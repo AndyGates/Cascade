@@ -43,6 +43,8 @@ void TiltShiftNode::Render()
 	gl::ScopedGlslProg prog(_prog);
 	RenderPass(_primaryRenderTarget, _secondaryRenderTarget, cinder::vec2(1, 0));
 	RenderPass(_secondaryRenderTarget, _primaryRenderTarget, cinder::vec2(0, 1));
+	RenderPass(_primaryRenderTarget, _secondaryRenderTarget, cinder::vec2(1, 0));
+	RenderPass(_secondaryRenderTarget, _primaryRenderTarget, cinder::vec2(0, 1));
 }
 
 void TiltShiftNode::RenderPass(gl::FboRef renderTarget, gl::FboRef texture, const cinder::vec2 direction)

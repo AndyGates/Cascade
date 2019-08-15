@@ -101,14 +101,14 @@ void CascadeApp::setupNodes()
 	auto sourceNode = std::make_shared<node::SourceNode>(_monitorSpectralNode);
 
 	//Data nodes
-	auto multiply = std::make_shared<node::MultiplyNode<float>>(0.25f);
+	auto multiply = std::make_shared<node::MultiplyNode<float>>(0.02f);
 
 	
 	//Geometry
 	//TODO geometry
 	
 	//Post Process
-	auto tiltShift = std::make_shared<node::TiltShiftNode>(_secondaryRenderTexture, _primaryRenderTexture, 0.001f, 0.1f);
+	auto tiltShift = std::make_shared<node::TiltShiftNode>(_secondaryRenderTexture, _primaryRenderTexture, 0.004f, 0.1f);
 	auto chromaticAberrationNode = std::make_shared<node::ChromaticAberrationNode>(nullptr, _primaryRenderTexture);
 	//auto vignetteNode = std::make_shared<node::VignetteNode>(nullptr, _secondaryRenderTexture, getWindowSize(), 0.4f);
 	
@@ -160,10 +160,28 @@ void CascadeApp::draw()
 			vec2 circlePoint(cos(angle), sin(angle));
 			float spectrumAmount = _spectrumData[spectrumIndex] * 1000.0f;
 
-
 			gl::translate(circlePoint * 2.0f);
 			gl::rotate(angle + (M_PI / 2.0));
 			gl::scale(0.2f, 0.2f + (0.1f*spectrumAmount));
+
+			_geometry->draw();
+		}
+
+		float cumulativeRot = (app::getElapsedSeconds() / 10.0) * (_monitorSpectralNode->getVolume() / 100.0);
+		_rot += cumulativeRot;
+
+		for (int i = 0; i < num; i++)
+		{
+			const gl::ScopedColor col(Color::hex(0xEE5622));
+
+			const gl::ScopedModelMatrix mat;
+			float angle = (angleDelta * static_cast<float>(i)) + _rot;
+			
+			vec2 circlePoint(cos(angle), sin(angle));
+
+			gl::translate(circlePoint * 4.0f);
+			gl::rotate(angle + (M_PI / 2.0));
+			gl::scale(0.4f, 0.4f);
 
 			_geometry->draw();
 		}
