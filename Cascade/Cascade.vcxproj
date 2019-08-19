@@ -20,38 +20,49 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\Node\Source\ElapsedTimeNode.h" />
-    <ClCompile Include="src\Node\ChromaticAberrationNode.cpp" />
+    <ClCompile Include="src\Data\GeometryDataObject.cpp" />
+    <ClCompile Include="src\Node\Effect\ChromaticAberrationNode.cpp" />
     <ClCompile Include="src\Node\Core\NodeSystem.cpp" />
     <ClCompile Include="src\Node\Core\Parameter.cpp" />
     <ClCompile Include="src\Node\Data\MultiplyNode.cpp" />
-    <ClCompile Include="src\Node\PostProcessNode.cpp" />
+    <ClCompile Include="src\Node\Effect\KaleidoscopeNode.cpp" />
+    <ClCompile Include="src\Node\Effect\PostProcessNode.cpp" />
+    <ClCompile Include="src\Node\Geometry\GeometryInstanceNode.cpp" />
+    <ClCompile Include="src\Node\Geometry\GeometrySourceNode.cpp" />
     <ClCompile Include="src\Node\RenderNode.cpp" />
-    <ClCompile Include="src\Node\SourceNode.cpp" />
+    <ClCompile Include="src\Node\Source\SourceNode.cpp" />
     <ClCompile Include="src\CascadeApp.cpp" />
     <ClCompile Include="src\Node\Core\Node.cpp" />
     <ClCompile Include="src\Node\Source\ElapsedTimeNode.cpp" />
-    <ClCompile Include="src\Node\TiltShiftNode.cpp" />
-    <ClCompile Include="src\Node\VignetteNode.cpp" />
+    <ClCompile Include="src\Node\Effect\TiltShiftNode.cpp" />
+    <ClCompile Include="src\Node\Effect\VignetteNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\CascadeApp.h" />
-    <ClInclude Include="include\Node\ChromaticAberrationNode.h" />
+    <ClInclude Include="include\Data\GeometryDataObject.h" />
+    <ClInclude Include="include\Node\Effect\ChromaticAberrationNode.h" />
     <ClInclude Include="include\Node\Core\Connection.h" />
     <ClInclude Include="include\Node\Core\IRenderNode.h" />
     <ClInclude Include="include\Node\Core\Node.h" />
     <ClInclude Include="include\Node\Core\NodeSystem.h" />
     <ClInclude Include="include\Node\Core\Parameter.h" />
     <ClInclude Include="include\Node\Data\MultiplyNode.h" />
+    <ClInclude Include="include\Node\Effect\KaleidoscopeNode.h" />
+    <ClInclude Include="include\Node\Geometry\GeometryInstanceNode.h" />
+    <ClInclude Include="include\Node\Geometry\GeometrySourceNode.h" />
     <ClInclude Include="include\Node\RenderNode.h" />
-    <ClInclude Include="include\Node\SourceNode.h" />
-    <ClInclude Include="include\Node\PostProcessNode.h" />
-    <ClInclude Include="include\Node\TiltShiftNode.h" />
-    <ClInclude Include="include\Node\VignetteNode.h" />
+    <ClInclude Include="include\Node\Source\SourceNode.h" />
+    <ClInclude Include="include\Node\Effect\PostProcessNode.h" />
+    <ClInclude Include="include\Node\Effect\TiltShiftNode.h" />
+    <ClInclude Include="include\Node\Effect\VignetteNode.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\ChromaticAberration.frag">
       <DeploymentContent>true</DeploymentContent>
       <FileType>Discomap</FileType>
+    </None>
+    <None Include="assets\Kaleidoscope.frag">
+      <DeploymentContent>true</DeploymentContent>
     </None>
     <None Include="assets\Passthrough.vert">
       <DeploymentContent>true</DeploymentContent>

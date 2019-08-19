@@ -5,11 +5,11 @@
 namespace cascade {
 namespace node {
 
-class VignetteNode : public PostProcessNode
+class KaleidoscopeNode : public PostProcessNode
 {
 public:
-	VignetteNode(gl::FboRef renderTarget, gl::FboRef textureBuffer, const vec2& resolution, float amount = 0);
-	~VignetteNode() override;
+	KaleidoscopeNode(gl::FboRef renderTarget, gl::FboRef textureBuffer, int amount = 3);
+	~KaleidoscopeNode() override;
 
 	void ProcessImpl() override;
 
@@ -18,8 +18,7 @@ protected:
 
 private:
 	size_t _amountParameterIndex;
-	float _amount;
-	vec2 _resolution;
+	int _amount;
 };
 
 }

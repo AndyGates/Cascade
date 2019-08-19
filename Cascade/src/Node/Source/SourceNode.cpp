@@ -1,9 +1,9 @@
-#include "Node/SourceNode.h"
+#include "Node/Source/SourceNode.h"
 
 namespace cascade {
 namespace node {
 
-SourceNode::SourceNode(const audio::MonitorSpectralNodeRef& audioSpectralMonitor) :
+SourceNode::SourceNode(const ci::audio::MonitorSpectralNodeRef& audioSpectralMonitor) :
 	_monitorSpectralNode(audioSpectralMonitor)
 {
 	_volumeParameterIndex = AddParameter<float>(ParameterDirection::Output, "Volume");

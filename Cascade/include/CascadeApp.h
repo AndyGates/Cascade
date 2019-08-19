@@ -12,9 +12,9 @@ using namespace ci;
 
 namespace cascade
 {
-
 namespace node
 {
+class GeometrySourceNode;
 class IRenderNode;
 }
 
@@ -33,9 +33,6 @@ public:
 	void update() override;
 
 private:
-
-	gl::BatchRef		_geometry;
-	gl::GlslProgRef		_shader;
 	CameraOrtho			_camera;
 
 	gl::FboRef			_primaryRenderTexture;

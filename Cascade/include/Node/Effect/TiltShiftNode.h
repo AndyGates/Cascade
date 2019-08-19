@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Core/Node.h"
-#include "Core/IRenderNode.h"
+#include "Node/Core/Node.h"
+#include "Node/Core/IRenderNode.h"
 #include "cinder/gl/gl.h"
 
 namespace cascade {

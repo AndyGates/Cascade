@@ -40,28 +40,28 @@
     <Filter Include="Source Files\Node\Data">
       <UniqueIdentifier>{deff07fb-1948-4670-bbc5-b411acbd35b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Node\Effect">
+      <UniqueIdentifier>{e6ff40cd-fa17-4380-9090-bc0157a69d34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Node\Effect">
+      <UniqueIdentifier>{fa943563-10d8-4b14-b6e2-d6069e87d3e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Node\Geometry">
+      <UniqueIdentifier>{a19ed50e-401e-4036-919b-52e9e57d0a25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Node\Geometry">
+      <UniqueIdentifier>{2009d042-5012-4908-8c1a-2418316545a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Data">
+      <UniqueIdentifier>{da78241b-a160-433b-9a66-a03ba6411c17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Data">
+      <UniqueIdentifier>{e6c6d396-5a4b-4496-a5eb-e2b3938abcfe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CascadeApp.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Node\RenderNode.cpp">
-      <Filter>Source Files\Node</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Node\ChromaticAberrationNode.cpp">
-      <Filter>Source Files\Node</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Node\PostProcessNode.cpp">
-      <Filter>Source Files\Node</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Node\SourceNode.cpp">
-      <Filter>Source Files\Node</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Node\TiltShiftNode.cpp">
-      <Filter>Source Files\Node</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Node\VignetteNode.cpp">
-      <Filter>Source Files\Node</Filter>
     </ClCompile>
     <ClCompile Include="src\Node\Core\Node.cpp">
       <Filter>Source Files\Node\Core</Filter>
@@ -80,6 +80,36 @@
     </ClCompile>
     <ClCompile Include="src\Node\Data\MultiplyNode.cpp">
       <Filter>Source Files\Node\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Node\RenderNode.cpp">
+      <Filter>Source Files\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Node\Effect\ChromaticAberrationNode.cpp">
+      <Filter>Source Files\Node\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Node\Effect\PostProcessNode.cpp">
+      <Filter>Source Files\Node\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Node\Effect\TiltShiftNode.cpp">
+      <Filter>Source Files\Node\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Node\Effect\VignetteNode.cpp">
+      <Filter>Source Files\Node\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Node\Source\SourceNode.cpp">
+      <Filter>Source Files\Node\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Node\Effect\KaleidoscopeNode.cpp">
+      <Filter>Source Files\Node\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Node\Geometry\GeometrySourceNode.cpp">
+      <Filter>Source Files\Node\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Data\GeometryDataObject.cpp">
+      <Filter>Source Files\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Node\Geometry\GeometryInstanceNode.cpp">
+      <Filter>Source Files\Node\Geometry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -101,26 +131,38 @@
     <ClInclude Include="include\Node\Core\Parameter.h">
       <Filter>Header Files\Node\Core</Filter>
     </ClInclude>
-    <ClInclude Include="include\Node\ChromaticAberrationNode.h">
-      <Filter>Header Files\Node</Filter>
+    <ClInclude Include="include\Node\Data\MultiplyNode.h">
+      <Filter>Header Files\Node\Data</Filter>
     </ClInclude>
-    <ClInclude Include="include\Node\PostProcessNode.h">
-      <Filter>Header Files\Node</Filter>
+    <ClInclude Include="include\Node\Effect\ChromaticAberrationNode.h">
+      <Filter>Header Files\Node\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Node\Effect\PostProcessNode.h">
+      <Filter>Header Files\Node\Effect</Filter>
     </ClInclude>
     <ClInclude Include="include\Node\RenderNode.h">
       <Filter>Header Files\Node</Filter>
     </ClInclude>
-    <ClInclude Include="include\Node\SourceNode.h">
-      <Filter>Header Files\Node</Filter>
+    <ClInclude Include="include\Node\Effect\TiltShiftNode.h">
+      <Filter>Header Files\Node\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="include\Node\TiltShiftNode.h">
-      <Filter>Header Files\Node</Filter>
+    <ClInclude Include="include\Node\Effect\VignetteNode.h">
+      <Filter>Header Files\Node\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="include\Node\VignetteNode.h">
-      <Filter>Header Files\Node</Filter>
+    <ClInclude Include="include\Node\Source\SourceNode.h">
+      <Filter>Header Files\Node\Source</Filter>
     </ClInclude>
-    <ClInclude Include="include\Node\Data\MultiplyNode.h">
-      <Filter>Header Files\Node\Data</Filter>
+    <ClInclude Include="include\Node\Effect\KaleidoscopeNode.h">
+      <Filter>Header Files\Node\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Node\Geometry\GeometrySourceNode.h">
+      <Filter>Header Files\Node\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Data\GeometryDataObject.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Node\Geometry\GeometryInstanceNode.h">
+      <Filter>Header Files\Node\Geometry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -134,6 +176,9 @@
       <Filter>Asset Files</Filter>
     </None>
     <None Include="assets\TiltShift.frag">
+      <Filter>Asset Files</Filter>
+    </None>
+    <None Include="assets\Kaleidoscope.frag">
       <Filter>Asset Files</Filter>
     </None>
   </ItemGroup>

@@ -1,9 +1,9 @@
-#include "Node/VignetteNode.h"
+#include "Node/Effect/VignetteNode.h"
 
 namespace cascade {
 namespace node {
 
-VignetteNode::VignetteNode(gl::FboRef renderTarget, gl::FboRef textureBuffer, const vec2& resolution, float amount) : PostProcessNode(renderTarget, textureBuffer, "Vignette.frag"), 
+VignetteNode::VignetteNode(gl::FboRef renderTarget, gl::FboRef textureBuffer, const ci::vec2& resolution, float amount) : PostProcessNode(renderTarget, textureBuffer, "Vignette.frag"), 
 _amountParameterIndex(),
 _resolution(resolution),
 _amount(amount)

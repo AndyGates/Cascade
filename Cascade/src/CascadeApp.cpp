@@ -1,9 +1,13 @@
 #include "CascadeApp.h"
-#include "Node/SourceNode.h"
-#include "Node/ChromaticAberrationNode.h"
-#include "Node/VignetteNode.h"
-#include "Node/TiltShiftNode.h"
+#include "Node/Geometry/GeometrySourceNode.h"
+#include "Node/Geometry/GeometryInstanceNode.h"
+#include "Node/RenderNode.h"
+#include "Node/Source/SourceNode.h"
+#include "Node/Effect/ChromaticAberrationNode.h"
+#include "Node/Effect/VignetteNode.h"
+#include "Node/Effect/TiltShiftNode.h"
 #include "Node/Data/MultiplyNode.h"
+#include "Node/Effect/KaleidoscopeNode.h"
 
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
@@ -18,6 +22,9 @@
 #include <vector>
 
 #include <chrono>
+
+#include "Data/GeometryDataObject.h"
+
 using namespace std::chrono;
 
 using namespace ci;
@@ -43,25 +50,6 @@ void CascadeApp::keyDown(KeyEvent event)
 
 void CascadeApp::setupGraphics()
 {
-	try
-	{
-		_shader = gl::context()->getStockShader(gl::ShaderDef().color());
-
-	}
-	catch (Exception &ex)
-	{
-		CI_LOG_E("Error loading shader: " << ex.what());
-	}
-
-	try
-	{
-		_geometry = gl::Batch::create(geom::Rect(), _shader);
-	}
-	catch (Exception &ex)
-	{
-		CI_LOG_E("Error creating geometry: " << ex.what());
-	}
-
 	try
 	{
 		int height = getWindowHeight();
@@ -101,22 +89,36 @@ void CascadeApp::setupNodes()
 	auto sourceNode = std::make_shared<node::SourceNode>(_monitorSpectralNode);
 
 	//Data nodes
-	auto multiply = std::make_shared<node::MultiplyNode<float>>(0.02f);
+	auto multiply = std::make_shared<node::MultiplyNode<float>>(0.01f);
 
 	
 	//Geometry
-	//TODO geometry
-	
+	auto geometry = std::make_shared<node::GeometrySourceNode>();
+	auto geometryInstance = std::make_shared<node::GeometryInstanceNode>();
+
+	auto render = std::make_shared<node::RenderNode>(_camera, _primaryRenderTexture);
+
 	//Post Process
-	auto tiltShift = std::make_shared<node::TiltShiftNode>(_secondaryRenderTexture, _primaryRenderTexture, 0.004f, 0.1f);
+	auto tiltShift = std::make_shared<node::TiltShiftNode>(_secondaryRenderTexture, _primaryRenderTexture, 0.004f, 0.2f);
 	auto chromaticAberrationNode = std::make_shared<node::ChromaticAberrationNode>(nullptr, _primaryRenderTexture);
+	//auto kaleido = std::make_shared<node::KaleidoscopeNode>(_secondaryRenderTexture, _primaryRenderTexture, 6);
 	//auto vignetteNode = std::make_shared<node::VignetteNode>(nullptr, _secondaryRenderTexture, getWindowSize(), 0.4f);
 	
 	_nodeSystem.AddNode(sourceNode);
 	_nodeSystem.AddNode(multiply);
+
+	_nodeSystem.AddNode(geometry);
+	_nodeSystem.AddNode(geometryInstance);
+	_nodeSystem.AddNode(render);
+	
 	_nodeSystem.AddNode(tiltShift);
 	_nodeSystem.AddNode(chromaticAberrationNode);
 //	_nodeSystem.AddNode(vignetteNode);
+
+	geometryInstance->ConnectInput(geometry, "Geometry", "GeometryIn");
+	render->ConnectInput(geometryInstance, "GeometryOut", "Geometry");
+
+	//render->ConnectInput(geometry, "Geometry", "Geometry");
 
 	multiply->ConnectInput(sourceNode, "Volume", "Input");
 	chromaticAberrationNode->ConnectInput(multiply, "Value", "Amount");
@@ -132,6 +134,10 @@ void CascadeApp::setup()
 void CascadeApp::draw()
 {
 	{
+		const gl::ScopedFramebuffer fb(_primaryRenderTexture);
+		gl::clear(Color::hex(0x00171F));
+
+		/*
 		const gl::ScopedMatrices scopeMat;
 		gl::setMatrices(_camera);
 
@@ -164,11 +170,12 @@ void CascadeApp::draw()
 			gl::rotate(angle + (M_PI / 2.0));
 			gl::scale(0.2f, 0.2f + (0.1f*spectrumAmount));
 
-			_geometry->draw();
+			_geom->GetParameter(node::ParameterDirection::Output, 0)->GetValue<data::GeometryDataObject>()->Geometry->draw();
 		}
 
-		float cumulativeRot = (app::getElapsedSeconds() / 10.0) * (_monitorSpectralNode->getVolume() / 100.0);
+		float cumulativeRot = -fmod(app::getElapsedSeconds(), 1.0f) * (_monitorSpectralNode->getVolume() / 100.0);
 		_rot += cumulativeRot;
+		_rot = fmod(_rot, M_PI*2.0f);
 
 		for (int i = 0; i < num; i++)
 		{
@@ -185,6 +192,7 @@ void CascadeApp::draw()
 
 			_geometry->draw();
 		}
+		*/
 	}
 
 	{
@@ -231,6 +239,6 @@ void CascadeApp::update()
 
 CINDER_APP(cascade::CascadeApp, RendererGl(RendererGl::Options().msaa(16)), [](App::Settings* settings) {
 	settings->setMultiTouchEnabled(false);
-	settings->setWindowSize(1024, 576);
+	settings->setWindowSize(1366, 768);
 	settings->setTitle("Cascade");
 })

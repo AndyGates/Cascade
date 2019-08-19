@@ -1,13 +1,13 @@
 #pragma once
-#include "Core/IRenderNode.h"
-#include "Core/Node.h"
+#include "Node/Core/IRenderNode.h"
+#include "Node/Core/Node.h"
 
 #include "cinder/gl/gl.h"
 
-using namespace cinder;
-
 namespace cascade {
 namespace node {
+
+namespace gl = ci::gl;
 
 class PostProcessNode : public Node, public IRenderNode
 {

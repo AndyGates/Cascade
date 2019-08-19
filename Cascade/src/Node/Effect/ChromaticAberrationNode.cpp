@@ -1,4 +1,4 @@
-#include "Node/ChromaticAberrationNode.h"
+#include "Node/Effect/ChromaticAberrationNode.h"
 
 namespace cascade {
 namespace node {

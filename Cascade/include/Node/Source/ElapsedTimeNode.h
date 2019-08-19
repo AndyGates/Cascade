@@ -2,8 +2,6 @@
 
 #include "Node/Core/Node.h"
 
-using namespace ci;
-
 namespace cascade {
 namespace node {
 

@@ -23,7 +23,7 @@ public:
 	//This just forces us to pass a parameter to the constructor 
 	template <class ParameterType>
 	Parameter(ParameterType initialValue) 
-		: _parameterValue(std::make_unique<ParameterValue<ParameterType>>())
+		: _parameterValue(std::make_unique<ParameterValue<ParameterType>>(initialValue))
 	{
 	}
 
@@ -60,7 +60,7 @@ private:
 	{
 	public:
 		//Grab the typeinfo once in the constructor
-		ParameterValue() : _value(), _type(typeid(ParameterType)) {};
+		ParameterValue(ParameterType initial) : _value(initial), _type(typeid(ParameterType)) {};
 
 		void SetValue(const ParameterType& value) { _value = value; };
 		

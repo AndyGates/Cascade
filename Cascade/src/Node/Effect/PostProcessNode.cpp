@@ -1,4 +1,4 @@
-#include "Node/PostProcessNode.h"
+#include "Node/Effect/PostProcessNode.h"
 #include "cinder/Filesystem.h"
 #include "cinder/app/App.h"
 
@@ -14,7 +14,7 @@ PostProcessNode::PostProcessNode(gl::FboRef renderTarget, gl::FboRef textureBuff
 	{
 		_prog = gl::GlslProg::create(cinder::app::loadAsset("Passthrough.vert"), cinder::app::loadAsset(pixelShaderAsset));
 	}
-	catch (Exception &ex)
+	catch (ci::Exception &ex)
 	{
 		throw std::invalid_argument("Failed to create pixel shader");
 	}
