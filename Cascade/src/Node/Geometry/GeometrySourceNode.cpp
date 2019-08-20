@@ -19,9 +19,7 @@ GeometrySourceNode::GeometrySourceNode()
 
 	try
 	{
-		auto torus = ci::geom::Cube();
-
-		_geometryData.Geometry = gl::Batch::create(torus, shader);
+		_geometryData.Geometry = gl::Batch::create(ci::geom::Cube(), shader);
 	}
 	catch (ci::Exception &ex)
 	{

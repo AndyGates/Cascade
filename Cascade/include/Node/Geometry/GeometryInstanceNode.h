@@ -19,6 +19,8 @@ public:
 
 private:
 	std::shared_ptr<data::GeometryDataObject> _geometryData;
+
+	size_t									  _instanceCountParameterIndex;
 	size_t									  _geometryInParameterIndex;
 	size_t									  _geometryOutParameterIndex;
 };

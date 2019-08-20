@@ -23,12 +23,12 @@ void GeometryInstanceNode::ProcessImpl()
 
 		_outputs[_geometryInParameterIndex]->SetValue(_geometryData);
 
-		int count = 4;
+		int count = 32;
 		float angleDelta = (2.0*M_PI) / static_cast<float>(count);
 
 		for (int i = 0; i < count; i++)
 		{
-			float angle = (angleDelta * static_cast<float>(i)) + ci::app::getElapsedSeconds();
+			float angle = (angleDelta * static_cast<float>(i)) + (ci::app::getElapsedSeconds() / 5.0f);
 
 			ci::vec3 circlePoint(cos(angle), sin(angle), 0.0f);
 
@@ -39,9 +39,9 @@ void GeometryInstanceNode::ProcessImpl()
 
 			glm::mat4 instanceTransform;
 
-			instanceTransform *= glm::translate(circlePoint * 2.0f);
-			instanceTransform *= glm::scale(ci::vec3(0.2f));
+			instanceTransform *= glm::translate(circlePoint * 3.0f);
 			instanceTransform *= glm::rotate(angle, ci::vec3(0.0f, 0.0f, 1.0f));
+			instanceTransform *= glm::scale(ci::vec3(1.0f, 0.05f, 1.0f));
 
 			 _geometryData->Instances[i] = instanceTransform;
 		}

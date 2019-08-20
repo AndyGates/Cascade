@@ -93,32 +93,34 @@ void CascadeApp::setupNodes()
 
 	
 	//Geometry
-	auto geometry = std::make_shared<node::GeometrySourceNode>();
-	auto geometryInstance = std::make_shared<node::GeometryInstanceNode>();
+	auto outerGeom = std::make_shared<node::GeometrySourceNode>();
+	auto outerGeomInstance = std::make_shared<node::GeometryInstanceNode>();
+	auto outerRender = std::make_shared<node::RenderNode>(_camera, _primaryRenderTexture);
 
-	auto render = std::make_shared<node::RenderNode>(_camera, _primaryRenderTexture);
+	auto innerGeom = std::make_shared<node::GeometrySourceNode>();
+	auto innerRender = std::make_shared<node::RenderNode>(_camera, _primaryRenderTexture);
 
 	//Post Process
 	auto tiltShift = std::make_shared<node::TiltShiftNode>(_secondaryRenderTexture, _primaryRenderTexture, 0.004f, 0.2f);
 	auto chromaticAberrationNode = std::make_shared<node::ChromaticAberrationNode>(nullptr, _primaryRenderTexture);
-	//auto kaleido = std::make_shared<node::KaleidoscopeNode>(_secondaryRenderTexture, _primaryRenderTexture, 6);
-	//auto vignetteNode = std::make_shared<node::VignetteNode>(nullptr, _secondaryRenderTexture, getWindowSize(), 0.4f);
 	
 	_nodeSystem.AddNode(sourceNode);
 	_nodeSystem.AddNode(multiply);
 
-	_nodeSystem.AddNode(geometry);
-	_nodeSystem.AddNode(geometryInstance);
-	_nodeSystem.AddNode(render);
+	_nodeSystem.AddNode(outerGeom);
+	_nodeSystem.AddNode(outerGeomInstance);
+	_nodeSystem.AddNode(outerRender);
+
+	_nodeSystem.AddNode(innerGeom);
+	_nodeSystem.AddNode(innerRender);
 	
 	_nodeSystem.AddNode(tiltShift);
 	_nodeSystem.AddNode(chromaticAberrationNode);
-//	_nodeSystem.AddNode(vignetteNode);
 
-	geometryInstance->ConnectInput(geometry, "Geometry", "GeometryIn");
-	render->ConnectInput(geometryInstance, "GeometryOut", "Geometry");
+	outerGeomInstance->ConnectInput(outerGeom, "Geometry", "GeometryIn");
+	outerRender->ConnectInput(outerGeomInstance, "GeometryOut", "Geometry");
 
-	//render->ConnectInput(geometry, "Geometry", "Geometry");
+	innerRender->ConnectInput(innerGeom, "Geometry", "Geometry");
 
 	multiply->ConnectInput(sourceNode, "Volume", "Input");
 	chromaticAberrationNode->ConnectInput(multiply, "Value", "Amount");
