@@ -18,6 +18,7 @@ public:
 
 	void ProcessImpl() override;
 	void Render() override;
+	void RenderInstance(glm::mat4 transform = {});
 
 private:
 	ci::gl::FboRef							  _renderTarget;

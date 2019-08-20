@@ -29,7 +29,7 @@ GeometrySourceNode::GeometrySourceNode()
 		throw;
 	}
 
-	_geometryParameterIndex = AddParameter<data::GeometryDataObject>(ParameterDirection::Output, "Geometry", _geometryData);
+	_geometryParameterIndex = AddParameter<std::shared_ptr<data::GeometryDataObject>>(ParameterDirection::Output, "Geometry", std::shared_ptr<data::GeometryDataObject>(&_geometryData));
 }
 
 GeometrySourceNode::~GeometrySourceNode()

@@ -7,7 +7,7 @@ RenderNode::RenderNode(const ci::CameraOrtho& camera, ci::gl::FboRef renderTarge
 	_camera(camera),
 	_renderTarget(renderTarget)
 {
-	_geometryParameterIndex = AddParameter<data::GeometryDataObject>(ParameterDirection::Input, "Geometry");
+	_geometryParameterIndex = AddParameter<std::shared_ptr<data::GeometryDataObject>>(ParameterDirection::Input, "Geometry");
 }
 
 RenderNode::~RenderNode()
@@ -18,8 +18,8 @@ void RenderNode::ProcessImpl()
 {
 	if (_inputConnected[_geometryParameterIndex])
 	{
-		auto ptr = _inputs[_geometryParameterIndex]->GetValue<data::GeometryDataObject>();
-		_geometryData = ptr;
+		auto ptr = _inputs[_geometryParameterIndex]->GetValue<std::shared_ptr<data::GeometryDataObject>>();
+		_geometryData = *ptr;
 	}
 }
 
@@ -33,30 +33,30 @@ void RenderNode::Render()
 		const gl::ScopedFramebuffer fb(_renderTarget);
 		const gl::ScopedColor col(ci::Color::hex(0x00A8E8));
 		
-		const gl::ScopedModelMatrix mat;
-		gl::setModelMatrix(_geometryData->Transform);
-
-		_geometryData->Geometry->draw();
-
-		/*
-		int num = 32;
-		float angleDelta = (2.0*M_PI) / static_cast<float>(num);
-
-		for (int i = 0; i < num; i++)
+		if (_geometryData->Instances.size() > 0)
 		{
-			const gl::ScopedModelMatrix mat;
-			float angle = angleDelta * static_cast<float>(i);
-
-			ci::vec2 circlePoint(cos(angle), sin(angle));
-
-			gl::translate(circlePoint * 2.0f);
-			gl::rotate(angle + (M_PI / 2.0));
-			gl::scale(0.2f, 0.2f);
-
-			_geometryData->Geometry->draw();
+			for (glm::mat4 instance : _geometryData->Instances)
+			{
+				RenderInstance(instance);
+			}
 		}
-		*/
+		else
+		{
+			RenderInstance();
+		}
+
 	}
+}
+
+void RenderNode::RenderInstance(glm::mat4 transform)
+{
+	const gl::ScopedModelMatrix mat;
+	
+	//Combine the base object transform with the instance transform
+	glm::mat4 compTransform = _geometryData->Transform * transform;
+	gl::setModelMatrix(compTransform);
+	
+	_geometryData->Geometry->draw();
 }
 
 }
