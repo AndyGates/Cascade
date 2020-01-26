@@ -10,10 +10,6 @@ _amount(amount)
 	_amountParameterIndex = AddParameter<float>(ParameterDirection::Input, "Amount", amount);
 }
 
-ChromaticAberrationNode::~ChromaticAberrationNode()
-{
-}
-
 void ChromaticAberrationNode::ProcessImpl()
 {
 	auto ptr = _inputs[_amountParameterIndex]->GetValue<float>();

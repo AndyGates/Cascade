@@ -20,10 +20,6 @@ PostProcessNode::PostProcessNode(gl::FboRef renderTarget, gl::FboRef textureBuff
 	}
 }
 
-PostProcessNode::~PostProcessNode()
-{
-}
-
 void PostProcessNode::Render()
 {
 	if (_renderTarget != nullptr)

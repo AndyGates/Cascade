@@ -13,7 +13,7 @@ class PostProcessNode : public Node, public IRenderNode
 {
 public:
 	PostProcessNode(gl::FboRef renderTarget, gl::FboRef textureBuffer, const std::string& pixelShader);
-	virtual ~PostProcessNode() override;
+	virtual ~PostProcessNode() override = default;
 	 
 	void Render() override;
 

@@ -13,8 +13,6 @@ class GeometrySourceNode : public Node
 {
 public:
 	GeometrySourceNode();
-	~GeometrySourceNode();
-
 	virtual void ProcessImpl() override;
 
 private:

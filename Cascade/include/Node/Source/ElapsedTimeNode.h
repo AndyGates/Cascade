@@ -9,8 +9,6 @@ class ElapsedTimeNode : public Node
 {
 public:
 	ElapsedTimeNode();
-	~ElapsedTimeNode();
-
 	virtual void ProcessImpl() override;
 
 private:

@@ -10,10 +10,6 @@ GeometryInstanceNode::GeometryInstanceNode()
 	_geometryOutParameterIndex = AddParameter<std::shared_ptr<data::GeometryDataObject>>(ParameterDirection::Output, "GeometryOut");
 }
 
-GeometryInstanceNode::~GeometryInstanceNode()
-{
-}
-
 void GeometryInstanceNode::ProcessImpl()
 {
 	if (_inputConnected[_geometryInParameterIndex])
@@ -41,7 +37,7 @@ void GeometryInstanceNode::ProcessImpl()
 
 			instanceTransform *= glm::translate(circlePoint * 3.0f);
 			instanceTransform *= glm::rotate(angle, ci::vec3(0.0f, 0.0f, 1.0f));
-			instanceTransform *= glm::scale(ci::vec3(1.0f, 0.05f, 1.0f));
+			instanceTransform *= glm::scale(ci::vec3(0.2f, 0.2f, 1.0f));
 
 			 _geometryData->Instances[i] = instanceTransform;
 		}

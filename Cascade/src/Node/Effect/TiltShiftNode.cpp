@@ -25,10 +25,6 @@ _blurRadius(blurRadius)
 	_distanceParameterIndex = AddParameter<float>(ParameterDirection::Input, "Distance", _distance);
 }
 
-TiltShiftNode::~TiltShiftNode()
-{
-}
-
 void TiltShiftNode::ProcessImpl()
 {
 	if (_inputConnected[_distanceParameterIndex])

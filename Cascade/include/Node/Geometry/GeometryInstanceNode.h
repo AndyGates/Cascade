@@ -13,8 +13,6 @@ class GeometryInstanceNode : public Node
 {
 public:
 	GeometryInstanceNode();
-	~GeometryInstanceNode();
-
 	void ProcessImpl() override;
 
 private:

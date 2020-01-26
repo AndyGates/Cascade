@@ -10,7 +10,6 @@ class MultiplyNode : public Node
 {
 public:
 	MultiplyNode(T multiplier);
-	~MultiplyNode() {}
 
 	virtual void ProcessImpl() override;
 

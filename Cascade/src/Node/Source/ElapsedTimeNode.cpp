@@ -8,10 +8,6 @@ ElapsedTimeNode::ElapsedTimeNode()
 	_timeParameterIndex = AddParameter<float>(ParameterDirection::Output, "Time");
 }
 
-ElapsedTimeNode::~ElapsedTimeNode()
-{
-}
-
 void ElapsedTimeNode::ProcessImpl()
 {
 

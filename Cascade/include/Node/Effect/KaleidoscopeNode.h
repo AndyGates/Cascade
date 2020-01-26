@@ -9,8 +9,6 @@ class KaleidoscopeNode : public PostProcessNode
 {
 public:
 	KaleidoscopeNode(gl::FboRef renderTarget, gl::FboRef textureBuffer, int amount = 3);
-	~KaleidoscopeNode() override;
-
 	void ProcessImpl() override;
 
 protected:

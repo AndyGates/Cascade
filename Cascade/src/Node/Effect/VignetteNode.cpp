@@ -11,10 +11,6 @@ _amount(amount)
 	_amountParameterIndex = AddParameter<float>(ParameterDirection::Input, "Amount", _amount);
 }
 
-VignetteNode::~VignetteNode()
-{
-}
-
 void VignetteNode::ProcessImpl()
 {
 	if (_inputConnected[_amountParameterIndex])

@@ -30,10 +30,6 @@ GeometrySourceNode::GeometrySourceNode()
 	_geometryParameterIndex = AddParameter<std::shared_ptr<data::GeometryDataObject>>(ParameterDirection::Output, "Geometry", std::shared_ptr<data::GeometryDataObject>(&_geometryData));
 }
 
-GeometrySourceNode::~GeometrySourceNode()
-{
-}
-
 void GeometrySourceNode::ProcessImpl()
 {
 	_geometryData.Transform = ci::mat4();

@@ -12,7 +12,7 @@ class Node
 {
 public:
 	Node();
-	virtual ~Node();
+	virtual ~Node() = default;
 
 	//Have index versions as optimisation? 
 	//Expose index variables from node

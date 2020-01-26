@@ -8,11 +8,6 @@ Node::Node()
 {
 }
 
-Node::~Node()
-{
-
-}
-
 bool Node::ConnectInput(std::shared_ptr<Node> other, const std::string & otherOutputName, const std::string & inputName)
 {
 	size_t inputIndex = GetParameterIndex(ParameterDirection::Input, inputName);

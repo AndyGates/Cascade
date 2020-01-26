@@ -13,7 +13,6 @@ class TiltShiftNode : public Node, public IRenderNode
 {
 public:
 	TiltShiftNode(gl::FboRef renderTarget, gl::FboRef textureBuffer, float blurRadius = 0, float distance = 0);
-	~TiltShiftNode() override;
 
 	void ProcessImpl() override;
 	void Render() override;

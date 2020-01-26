@@ -10,10 +10,6 @@ _amount(amount)
 	_amountParameterIndex = AddParameter<int>(ParameterDirection::Input, "Amount", amount);
 }
 
-KaleidoscopeNode::~KaleidoscopeNode()
-{
-}
-
 void KaleidoscopeNode::ProcessImpl()
 {
 	if (_inputConnected[_amountParameterIndex])

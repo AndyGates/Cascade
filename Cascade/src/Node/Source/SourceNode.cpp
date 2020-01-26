@@ -10,10 +10,6 @@ SourceNode::SourceNode(const ci::audio::MonitorSpectralNodeRef& audioSpectralMon
 	_spectrumParameterIndex = AddParameter<std::vector<float>>(ParameterDirection::Output, "Spectrum");
 }
 
-SourceNode::~SourceNode()
-{
-}
-
 void SourceNode::ProcessImpl()
 {
 	float vol = _monitorSpectralNode->getVolume();

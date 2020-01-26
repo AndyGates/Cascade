@@ -10,8 +10,6 @@ class SourceNode : public Node
 {
 public:
 	SourceNode(const ci::audio::MonitorSpectralNodeRef& audioSpectralMonitor);
-	~SourceNode();
-
 	virtual void ProcessImpl() override;
 
 private:
