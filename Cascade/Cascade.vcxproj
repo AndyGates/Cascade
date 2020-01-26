@@ -20,11 +20,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\Node\Source\ElapsedTimeNode.h" />
-    <ClCompile Include="src\Data\GeometryDataObject.cpp" />
     <ClCompile Include="src\Node\Effect\ChromaticAberrationNode.cpp" />
     <ClCompile Include="src\Node\Core\NodeSystem.cpp" />
     <ClCompile Include="src\Node\Core\Parameter.cpp" />
-    <ClCompile Include="src\Node\Data\MultiplyNode.cpp" />
     <ClCompile Include="src\Node\Effect\KaleidoscopeNode.cpp" />
     <ClCompile Include="src\Node\Effect\PostProcessNode.cpp" />
     <ClCompile Include="src\Node\Geometry\GeometryInstanceNode.cpp" />

@@ -37,7 +37,6 @@ size_t Node::GetParameterIndex(const ParameterDirection direction, const std::st
 void Node::Process()
 {
 	//Make sure we don't process the same node twice, and don't restart the processing if processing is already taking place (eg. a child node is processing)
-	//This should never happen with the current setup, so maybe this should throw??
 	if (_processState == ProcessState::NotProcessed)
 	{
 		_processState = ProcessState::ProcessStarted;

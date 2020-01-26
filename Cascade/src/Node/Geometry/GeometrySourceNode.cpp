@@ -3,6 +3,8 @@
 namespace cascade {
 namespace node {
 
+namespace gl = ci::gl;
+
 GeometrySourceNode::GeometrySourceNode()
 {
 	ci::gl::GlslProgRef shader;

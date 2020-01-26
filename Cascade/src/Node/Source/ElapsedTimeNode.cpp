@@ -1,4 +1,5 @@
 #include "Node/Source/ElapsedTimeNode.h"
+#include "cinder/app/App.h"
 
 namespace cascade {
 namespace node {
@@ -10,7 +11,8 @@ ElapsedTimeNode::ElapsedTimeNode()
 
 void ElapsedTimeNode::ProcessImpl()
 {
-
+	float time = ci::app::getElapsedSeconds();
+	_outputs[_timeParameterIndex]->SetValue(time);
 }
 
 }

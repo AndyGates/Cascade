@@ -1,13 +1,10 @@
 #pragma once
-#include "cinder/gl/gl.h"
 
 #include "Node/Core/Node.h"
 #include "Data/GeometryDataObject.h"
 
 namespace cascade {
 namespace node {
-
-namespace gl = ci::gl;
 
 class GeometrySourceNode : public Node
 {

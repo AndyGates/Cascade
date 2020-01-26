@@ -41,7 +41,7 @@ protected:
 	std::vector<std::shared_ptr<Connection>> _inputConnections;
 	
 	template <class ParameterType>
-	size_t AddParameter(const ParameterDirection& dir, const std::string& name, const ParameterType& initialValue = {});
+	size_t AddParameter(ParameterDirection dir, const std::string& name, const ParameterType& initialValue = {});
 
 	virtual void ProcessImpl() = 0;
 
@@ -57,7 +57,7 @@ private:
 };
 
 template<class ParameterType>
-size_t Node::AddParameter(const ParameterDirection& dir, const std::string & name, const ParameterType& initialValue)
+size_t Node::AddParameter(ParameterDirection dir, const std::string & name, const ParameterType& initialValue)
 {
 	//Pass in a default value for whatever type we are assigning to the parameter.
 	//This enables type deduction in the constructor. Could pass in a custom initial if necessary
@@ -66,12 +66,10 @@ size_t Node::AddParameter(const ParameterDirection& dir, const std::string & nam
 
 	if (dir == ParameterDirection::Input)
 	{
-		//emplace_back avoids copy/move constructors 
 		_inputs.push_back(std::make_shared<Parameter>(initialValue));
 		_inputNames.push_back(name);
 		_inputConnected.push_back(false);
 
-		//TODO decide about assertions 
 		assert(_inputs.size() == _inputNames.size() && _inputs.size() == _inputConnected.size());
 		
 		index = _inputs.size() - 1;

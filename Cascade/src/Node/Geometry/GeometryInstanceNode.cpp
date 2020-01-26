@@ -39,7 +39,7 @@ void GeometryInstanceNode::ProcessImpl()
 			instanceTransform *= glm::rotate(angle, ci::vec3(0.0f, 0.0f, 1.0f));
 			instanceTransform *= glm::scale(ci::vec3(0.2f, 0.2f, 1.0f));
 
-			 _geometryData->Instances[i] = instanceTransform;
+			_geometryData->Instances[i] = instanceTransform;
 		}
 	}
 }
