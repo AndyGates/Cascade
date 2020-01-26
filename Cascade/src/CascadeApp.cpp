@@ -243,5 +243,4 @@ CINDER_APP(cascade::CascadeApp, RendererGl(RendererGl::Options().msaa(16)), [](A
 	settings->setMultiTouchEnabled(false);
 	settings->setWindowSize(1366, 768);
 	settings->setTitle("Cascade");
-	settings->setDisplay(ci::Display::getDisplays()[2]);
 })

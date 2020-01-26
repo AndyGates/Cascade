@@ -59,7 +59,7 @@ private:
 template<class ParameterType>
 size_t Node::AddParameter(const ParameterDirection& dir, const std::string & name, const ParameterType& initialValue)
 {
-	//Pass in a default value for whatever tyoe we are assigning to the parameter.
+	//Pass in a default value for whatever type we are assigning to the parameter.
 	//This enables type deduction in the constructor. Could pass in a custom initial if necessary
 	
 	size_t index = -1;
