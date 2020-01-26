@@ -8,20 +8,22 @@ Node::Node()
 {
 }
 
-bool Node::ConnectInput(std::shared_ptr<Node> other, const std::string & otherOutputName, const std::string & inputName)
+Node::~Node() = default;
+
+bool Node::ConnectInput(Node& other, const std::string & otherOutputName, const std::string & inputName)
 {
 	size_t inputIndex = GetParameterIndex(ParameterDirection::Input, inputName);
 
 	if (!_inputConnected[inputIndex])
 	{
-		size_t otherOutputIndex = other->GetParameterIndex(ParameterDirection::Output, otherOutputName);
-		_inputConnections.push_back(std::make_shared<Connection>(other, otherOutputIndex, inputIndex));
+		size_t otherOutputIndex = other.GetParameterIndex(ParameterDirection::Output, otherOutputName);
+		_inputConnections.push_back(std::make_unique<Connection>(&other, otherOutputIndex, inputIndex));
 		_inputConnected[inputIndex] = true;
 	}
 	return false;
 }
 
-size_t Node::GetParameterIndex(const ParameterDirection direction, const std::string & name)
+size_t Node::GetParameterIndex(const ParameterDirection direction, const std::string & name) const
 {
 	size_t index = 0;
 
@@ -41,8 +43,10 @@ void Node::Process()
 	{
 		_processState = ProcessState::ProcessStarted;
 
-		for (auto c : _inputConnections)
+		for (auto& c : _inputConnections)
 		{
+			assert(c->OutputNode != nullptr);
+
 			//Make sure we recursively process each input connection before this one
 			c->OutputNode->Process();
 

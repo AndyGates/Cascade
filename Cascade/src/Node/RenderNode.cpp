@@ -31,10 +31,11 @@ void RenderNode::Render()
 		gl::setMatrices(_camera);
 
 		const gl::ScopedFramebuffer fb(_renderTarget);
-		const gl::ScopedColor col(ci::Color::hex(0x00A8E8));
+		const gl::ScopedColor col(_geometryData->Color);
 		
 		if (_geometryData->Instances.size() > 0)
 		{
+			
 			for (glm::mat4 instance : _geometryData->Instances)
 			{
 				RenderInstance(instance);

@@ -13,6 +13,10 @@ public:
 
 	virtual void ProcessImpl() override;
 
+	static constexpr auto IN_INPUT		= "Input";
+	static constexpr auto IN_MULTIPLIER	= "Multiplier";
+	static constexpr auto OUT_VALUE		= "Value";
+
 private:
 	float _multiplier;
 
@@ -24,9 +28,9 @@ private:
 template <class T>
 MultiplyNode<T>::MultiplyNode(T multiplier) : _multiplier(multiplier)
 {
-	_inputParameterIndex = AddParameter<T>(ParameterDirection::Input, "Input");
-	_multiplierParameterIndex = AddParameter<T>(ParameterDirection::Input, "Multiplier");
-	_valueParameterIndex = AddParameter<T>(ParameterDirection::Output, "Value");
+	_inputParameterIndex = AddParameter<T>(ParameterDirection::Input, IN_INPUT);
+	_multiplierParameterIndex = AddParameter<T>(ParameterDirection::Input, IN_MULTIPLIER);
+	_valueParameterIndex = AddParameter<T>(ParameterDirection::Output, OUT_VALUE);
 }
 
 template <class T>

@@ -8,26 +8,8 @@ namespace gl = ci::gl;
 GeometrySourceNode::GeometrySourceNode()
 {
 	ci::gl::GlslProgRef shader;
-
-	try
-	{
-		shader = gl::context()->getStockShader(gl::ShaderDef().color());
-	}
-	catch (ci::Exception &ex)
-	{
-		CI_LOG_E("Error loading shader: " << ex.what());
-		throw;
-	}
-
-	try
-	{
-		_geometryData.Geometry = gl::Batch::create(ci::geom::Cube(), shader);
-	}
-	catch (ci::Exception &ex)
-	{
-		CI_LOG_E("Error creating geometry: " << ex.what());
-		throw;
-	}
+	shader = gl::context()->getStockShader(gl::ShaderDef().color());
+	_geometryData.Geometry = gl::Batch::create(ci::geom::Cube(), shader);
 
 	_geometryParameterIndex = AddParameter<std::shared_ptr<data::GeometryDataObject>>(ParameterDirection::Output, "Geometry", std::shared_ptr<data::GeometryDataObject>(&_geometryData));
 }
@@ -35,7 +17,7 @@ GeometrySourceNode::GeometrySourceNode()
 void GeometrySourceNode::ProcessImpl()
 {
 	_geometryData.Transform = ci::mat4();
-	_geometryData.Color = ci::Color();
+	_geometryData.Color = ci::Color::hex(0x00A8E8);
 }
 
 }

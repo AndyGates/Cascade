@@ -69,9 +69,6 @@
     <ClCompile Include="src\Node\Core\NodeSystem.cpp">
       <Filter>Source Files\Node\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\Node\Core\Parameter.cpp">
-      <Filter>Source Files\Node\Core</Filter>
-    </ClCompile>
     <ClCompile Include="include\Node\Source\ElapsedTimeNode.h">
       <Filter>Header Files\Node\Source</Filter>
     </ClCompile>

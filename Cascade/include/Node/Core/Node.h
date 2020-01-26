@@ -12,13 +12,13 @@ class Node
 {
 public:
 	Node();
-	virtual ~Node() = default;
+	virtual ~Node();
 
 	//Have index versions as optimisation? 
 	//Expose index variables from node
-	bool ConnectInput(std::shared_ptr<Node> other, const std::string& otherOutputName, const std::string& inputName);
+	bool ConnectInput(Node& other, const std::string& otherOutputName, const std::string& inputName);
 
-	size_t GetParameterIndex(const ParameterDirection direction, const std::string& name);
+	size_t GetParameterIndex(const ParameterDirection direction, const std::string& name) const;
 	std::shared_ptr<Parameter> GetParameter(const ParameterDirection direction, size_t index);
 
 	//If the node has no outputs, we can class it as an output node. This means nothing is depending on its process result
@@ -38,7 +38,7 @@ protected:
 
 	//Maybe move this and parameter management to a separate object
 	//Like "ParameterSet"?? 
-	std::vector<std::shared_ptr<Connection>> _inputConnections;
+	std::vector<std::unique_ptr<Connection>> _inputConnections;
 	
 	template <class ParameterType>
 	size_t AddParameter(ParameterDirection dir, const std::string& name, const ParameterType& initialValue = {});

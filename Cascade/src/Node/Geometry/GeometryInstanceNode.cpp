@@ -1,5 +1,6 @@
 #include "Node/Geometry/GeometryInstanceNode.h"
 #include "cinder/app/App.h"
+#include "cinder/gl/gl.h"
 
 namespace cascade {
 namespace node {
@@ -7,6 +8,8 @@ namespace node {
 GeometryInstanceNode::GeometryInstanceNode()
 {
 	_geometryInParameterIndex = AddParameter<std::shared_ptr<data::GeometryDataObject>>(ParameterDirection::Input, "GeometryIn");
+	_tempInParameterIndex = AddParameter<std::shared_ptr<data::GeometryDataObject>>(ParameterDirection::Input, "TempIn");
+
 	_geometryOutParameterIndex = AddParameter<std::shared_ptr<data::GeometryDataObject>>(ParameterDirection::Output, "GeometryOut");
 }
 
@@ -40,6 +43,7 @@ void GeometryInstanceNode::ProcessImpl()
 			instanceTransform *= glm::scale(ci::vec3(0.2f, 0.2f, 1.0f));
 
 			_geometryData->Instances[i] = instanceTransform;
+			_geometryData->Color = ci::Color::hex(0xFF652F);
 		}
 	}
 }

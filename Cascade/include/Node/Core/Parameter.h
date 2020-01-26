@@ -28,7 +28,7 @@ public:
 	}
 
 	//Move constructor so this can be used in vector
-	Parameter(Parameter&& other) noexcept
+	Parameter(Parameter&& other)
 		: _parameterValue(std::move(other._parameterValue)) 
 	{
 	}

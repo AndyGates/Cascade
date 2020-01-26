@@ -20,7 +20,6 @@
 #include "cinder/Utilities.h"
 
 #include <vector>
-
 #include <chrono>
 
 #include "Data/GeometryDataObject.h"
@@ -85,45 +84,46 @@ void CascadeApp::setupAudio()
 
 void CascadeApp::setupNodes()
 {
+	//Move to a factory in the future? 
+
 	//Source nodes
-	auto sourceNode = std::make_shared<node::SourceNode>(_monitorSpectralNode);
+	auto sourceNode = std::make_unique<node::SourceNode>(_monitorSpectralNode);
 
 	//Data nodes
-	auto multiply = std::make_shared<node::MultiplyNode<float>>(0.01f);
-
+	auto multiply = std::make_unique<node::MultiplyNode<float>>(0.02f);
 	
 	//Geometry
-	auto outerGeom = std::make_shared<node::GeometrySourceNode>();
-	auto outerGeomInstance = std::make_shared<node::GeometryInstanceNode>();
-	auto outerRender = std::make_shared<node::RenderNode>(_camera, _primaryRenderTexture);
+	auto outerGeom = std::make_unique<node::GeometrySourceNode>();
+	auto outerGeomInstance = std::make_unique<node::GeometryInstanceNode>();
+	auto outerRender = std::make_unique<node::RenderNode>(_camera, _primaryRenderTexture);
 
-	auto innerGeom = std::make_shared<node::GeometrySourceNode>();
-	auto innerRender = std::make_shared<node::RenderNode>(_camera, _primaryRenderTexture);
+	auto innerGeom = std::make_unique<node::GeometrySourceNode>();
+	auto innerRender = std::make_unique<node::RenderNode>(_camera, _primaryRenderTexture);
 
 	//Post Process
-	auto tiltShift = std::make_shared<node::TiltShiftNode>(_secondaryRenderTexture, _primaryRenderTexture, 0.004f, 0.2f);
-	auto chromaticAberrationNode = std::make_shared<node::ChromaticAberrationNode>(nullptr, _primaryRenderTexture);
+	auto tiltShift = std::make_unique<node::TiltShiftNode>(_secondaryRenderTexture, _primaryRenderTexture, 0.004f, 0.2f);
+	auto chromaticAberrationNode = std::make_unique<node::ChromaticAberrationNode>(nullptr, _primaryRenderTexture);
 	
-	_nodeSystem.AddNode(sourceNode);
-	_nodeSystem.AddNode(multiply);
+	outerGeomInstance->ConnectInput(*outerGeom, "Geometry", "GeometryIn");
+	outerRender->ConnectInput(*outerGeomInstance, "GeometryOut", "Geometry");
 
-	_nodeSystem.AddNode(outerGeom);
-	_nodeSystem.AddNode(outerGeomInstance);
-	_nodeSystem.AddNode(outerRender);
+	innerRender->ConnectInput(*innerGeom, "Geometry", "Geometry");
 
-	_nodeSystem.AddNode(innerGeom);
-	_nodeSystem.AddNode(innerRender);
+	multiply->ConnectInput(*sourceNode, "Volume", node::MultiplyNode<float>::IN_INPUT);
+	chromaticAberrationNode->ConnectInput(*multiply, node::MultiplyNode<float>::OUT_VALUE, "Amount");
+
+	_nodeSystem.AddNode(std::move(sourceNode));
+	_nodeSystem.AddNode(std::move(multiply));
+
+	_nodeSystem.AddNode(std::move(outerGeom));
+	_nodeSystem.AddNode(std::move(outerGeomInstance));
+	_nodeSystem.AddNode(std::move(outerRender));
+
+	_nodeSystem.AddNode(std::move(innerGeom));
+	_nodeSystem.AddNode(std::move(innerRender));
 	
-	_nodeSystem.AddNode(tiltShift);
-	_nodeSystem.AddNode(chromaticAberrationNode);
-
-	outerGeomInstance->ConnectInput(outerGeom, "Geometry", "GeometryIn");
-	outerRender->ConnectInput(outerGeomInstance, "GeometryOut", "Geometry");
-
-	innerRender->ConnectInput(innerGeom, "Geometry", "Geometry");
-
-	multiply->ConnectInput(sourceNode, "Volume", "Input");
-	chromaticAberrationNode->ConnectInput(multiply, "Value", "Amount");
+	_nodeSystem.AddNode(std::move(tiltShift));
+	_nodeSystem.AddNode(std::move(chromaticAberrationNode));
 }
 
 void CascadeApp::setup()

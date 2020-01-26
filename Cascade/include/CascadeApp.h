@@ -36,6 +36,7 @@ private:
 	CameraOrtho			_camera;
 
 	gl::FboRef			_primaryRenderTexture;
+
 	//second render texture for post process "ping-pong"
 	gl::FboRef			_secondaryRenderTexture;
 
@@ -43,7 +44,6 @@ private:
 	audio::MonitorSpectralNodeRef	_monitorSpectralNode;
 
 	node::NodeSystem _nodeSystem;
-	std::vector<std::weak_ptr<node::IRenderNode>> _renderNodes;
 
 	float _scale = 1.0f;
 	std::vector<float> _spectrumData;
