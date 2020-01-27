@@ -20,13 +20,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\Node\Source\ElapsedTimeNode.h" />
+    <ClCompile Include="src\Node\Core\Parameter.cpp" />
+    <ClCompile Include="src\Node\Core\RenderNode.cpp" />
     <ClCompile Include="src\Node\Effect\ChromaticAberrationNode.cpp" />
     <ClCompile Include="src\Node\Core\NodeSystem.cpp" />
     <ClCompile Include="src\Node\Effect\KaleidoscopeNode.cpp" />
     <ClCompile Include="src\Node\Effect\PostProcessNode.cpp" />
     <ClCompile Include="src\Node\Geometry\GeometryInstanceNode.cpp" />
     <ClCompile Include="src\Node\Geometry\GeometrySourceNode.cpp" />
-    <ClCompile Include="src\Node\RenderNode.cpp" />
     <ClCompile Include="src\Node\Source\SourceNode.cpp" />
     <ClCompile Include="src\CascadeApp.cpp" />
     <ClCompile Include="src\Node\Core\Node.cpp" />
@@ -37,9 +38,9 @@
   <ItemGroup>
     <ClInclude Include="include\CascadeApp.h" />
     <ClInclude Include="include\Data\GeometryDataObject.h" />
+    <ClInclude Include="include\Node\Core\IRenderNode.h" />
     <ClInclude Include="include\Node\Effect\ChromaticAberrationNode.h" />
     <ClInclude Include="include\Node\Core\Connection.h" />
-    <ClInclude Include="include\Node\Core\IRenderNode.h" />
     <ClInclude Include="include\Node\Core\Node.h" />
     <ClInclude Include="include\Node\Core\NodeSystem.h" />
     <ClInclude Include="include\Node\Core\Parameter.h" />

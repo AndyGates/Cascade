@@ -75,9 +75,6 @@
     <ClCompile Include="src\Node\Source\ElapsedTimeNode.cpp">
       <Filter>Source Files\Node\Source</Filter>
     </ClCompile>
-    <ClCompile Include="src\Node\RenderNode.cpp">
-      <Filter>Source Files\Node</Filter>
-    </ClCompile>
     <ClCompile Include="src\Node\Effect\ChromaticAberrationNode.cpp">
       <Filter>Source Files\Node\Effect</Filter>
     </ClCompile>
@@ -102,15 +99,18 @@
     <ClCompile Include="src\Node\Geometry\GeometryInstanceNode.cpp">
       <Filter>Source Files\Node\Geometry</Filter>
     </ClCompile>
+    <ClCompile Include="src\Node\Core\Parameter.cpp">
+      <Filter>Source Files\Node\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Node\Core\RenderNode.cpp">
+      <Filter>Source Files\Node\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\CascadeApp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Node\Core\Connection.h">
-      <Filter>Header Files\Node\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Node\Core\IRenderNode.h">
       <Filter>Header Files\Node\Core</Filter>
     </ClInclude>
     <ClInclude Include="include\Node\Core\Node.h">
@@ -154,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="include\Node\Geometry\GeometryInstanceNode.h">
       <Filter>Header Files\Node\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Node\Core\IRenderNode.h">
+      <Filter>Header Files\Node\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

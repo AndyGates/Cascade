@@ -2,6 +2,7 @@
 
 #include "Parameter.h"
 #include <vector>
+#include <cassert>
 
 namespace cascade { 
 namespace node {

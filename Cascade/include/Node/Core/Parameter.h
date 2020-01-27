@@ -2,7 +2,6 @@
 
 #include <memory>
 #include <stdexcept>
-#include "cinder/Log.h"
 
 namespace cascade {
 namespace node {
@@ -11,7 +10,7 @@ class Node;
 
 enum class ParameterDirection
 {
-	Input, 
+	Input,
 	Output
 };
 
@@ -33,14 +32,10 @@ public:
 	{
 	}
 	
-	~Parameter() { }
+	//Set value via reference to another parameter
+	void SetValue(const Parameter& parameter);
 
-
-	void SetValue(const Parameter& parameter)
-	{
-		_parameterValue->SetValue(parameter);
-	};
-
+	//Set value directly
 	template <class ParameterType>
 	void SetValue(const ParameterType& value);
 
@@ -63,9 +58,8 @@ private:
 		ParameterValue(ParameterType initial) : _value(initial), _type(typeid(ParameterType)) {};
 
 		void SetValue(const ParameterType& value) { _value = value; };
-		
-		//TODO move out? all these classes?
-		void SetValue(const Parameter& param) override 
+
+		void SetValue(const Parameter& param) override
 		{
 			ParameterValue<ParameterType>& paramRef = dynamic_cast<ParameterValue<ParameterType>&>(*param._parameterValue);
 			try {

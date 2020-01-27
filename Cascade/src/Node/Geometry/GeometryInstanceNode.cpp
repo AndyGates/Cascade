@@ -8,7 +8,7 @@ namespace node {
 GeometryInstanceNode::GeometryInstanceNode()
 {
 	_geometryInParameterIndex = AddParameter<std::shared_ptr<data::GeometryDataObject>>(ParameterDirection::Input, "GeometryIn");
-	_tempInParameterIndex = AddParameter<std::shared_ptr<data::GeometryDataObject>>(ParameterDirection::Input, "TempIn");
+	_tempInParameterIndex = AddParameter<float>(ParameterDirection::Input, "TempIn");
 
 	_geometryOutParameterIndex = AddParameter<std::shared_ptr<data::GeometryDataObject>>(ParameterDirection::Output, "GeometryOut");
 }

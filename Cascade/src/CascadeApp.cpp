@@ -1,7 +1,7 @@
 #include "CascadeApp.h"
 #include "Node/Geometry/GeometrySourceNode.h"
 #include "Node/Geometry/GeometryInstanceNode.h"
-#include "Node/RenderNode.h"
+#include "Node/Core/RenderNode.h"
 #include "Node/Source/SourceNode.h"
 #include "Node/Effect/ChromaticAberrationNode.h"
 #include "Node/Effect/VignetteNode.h"

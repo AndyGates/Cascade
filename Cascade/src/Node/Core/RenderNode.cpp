@@ -1,4 +1,4 @@
-#include "Node/RenderNode.h"
+#include "Node/Core/RenderNode.h"
 
 namespace cascade {
 namespace node {
