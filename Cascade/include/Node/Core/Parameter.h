@@ -45,7 +45,7 @@ public:
 	void SetValue(const ParameterType& value);
 
 	template <class ParameterType>
-	const std::shared_ptr<ParameterType> GetValue() const;
+	ParameterType* GetValue();
 	
 private:
 	class IParameterValue
@@ -78,9 +78,7 @@ private:
 			}
 		};
 
-		//Return shared_ptr to value, needs to be a pointer as the value can be null (Can it? should it?) 
-		//Is this too slow?
-		const std::shared_ptr<ParameterType> GetValue() const { return std::make_shared<ParameterType>(_value); }
+		ParameterType* GetValue() { return &_value; }
 		const std::type_info& GetType() const { return _type; }
 
 	private:
@@ -107,7 +105,7 @@ void Parameter::SetValue(const ParameterType& value)
 };
 
 template <class ParameterType>
-const std::shared_ptr<ParameterType> Parameter::GetValue() const
+ParameterType* Parameter::GetValue()
 {
 	try
 	{

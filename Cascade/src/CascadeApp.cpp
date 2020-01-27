@@ -128,6 +128,7 @@ void CascadeApp::setupNodes()
 
 void CascadeApp::setup()
 {
+
 	setupGraphics();
 	setupAudio();
 	setupNodes();
@@ -138,63 +139,6 @@ void CascadeApp::draw()
 	{
 		const gl::ScopedFramebuffer fb(_primaryRenderTexture);
 		gl::clear(Color::hex(0x00171F));
-
-		/*
-		const gl::ScopedMatrices scopeMat;
-		gl::setMatrices(_camera);
-
-		const gl::ScopedFramebuffer fb(_primaryRenderTexture);
-
-		gl::clear(Color::hex(0x00171F));
-
-		const gl::ScopedColor col(Color::hex(0x00A8E8));
-
-		int num = 32;
-		float angleDelta = (2.0*M_PI) / static_cast<float>(num);
-
-		float spectrumCount = static_cast<float>(_spectrumData.size());
-		float spectrumStart = spectrumCount * 0.1;
-		float spectrumEnd = spectrumCount * 0.9;
-
-		float spectrumDelta = (spectrumCount*0.8f) / static_cast<float>(num);
-
-		for (int i = 0; i < num; i++)
-		{
-			const gl::ScopedModelMatrix mat;
-			float angle = angleDelta * static_cast<float>(i);
-
-			int spectrumIndex = static_cast<int>(spectrumStart + (spectrumDelta * i));
-
-			vec2 circlePoint(cos(angle), sin(angle));
-			float spectrumAmount = _spectrumData[spectrumIndex] * 1000.0f;
-
-			gl::translate(circlePoint * 2.0f);
-			gl::rotate(angle + (M_PI / 2.0));
-			gl::scale(0.2f, 0.2f + (0.1f*spectrumAmount));
-
-			_geom->GetParameter(node::ParameterDirection::Output, 0)->GetValue<data::GeometryDataObject>()->Geometry->draw();
-		}
-
-		float cumulativeRot = -fmod(app::getElapsedSeconds(), 1.0f) * (_monitorSpectralNode->getVolume() / 100.0);
-		_rot += cumulativeRot;
-		_rot = fmod(_rot, M_PI*2.0f);
-
-		for (int i = 0; i < num; i++)
-		{
-			const gl::ScopedColor col(Color::hex(0xEE5622));
-
-			const gl::ScopedModelMatrix mat;
-			float angle = (angleDelta * static_cast<float>(i)) + _rot;
-			
-			vec2 circlePoint(cos(angle), sin(angle));
-
-			gl::translate(circlePoint * 4.0f);
-			gl::rotate(angle + (M_PI / 2.0));
-			gl::scale(0.4f, 0.4f);
-
-			_geometry->draw();
-		}
-		*/
 	}
 
 	{
@@ -213,20 +157,6 @@ void CascadeApp::resize()
 	float calculatedHeight = referenceWith * aspect;
 
 	_camera.setOrtho(-referenceWith, referenceWith, -calculatedHeight, calculatedHeight, -100, 100);
-
-	/*
-	try
-	{
-
-		gl::Fbo::Format fmt;
-		fmt.samples(16);
-		_renderTexture = gl::Fbo::create(width, height, fmt);
-	}
-	catch (Exception &ex)
-	{
-		CI_LOG_E("Error creating render texture: " << ex.what());
-	}
-	*/
 }
 
 void CascadeApp::update()
