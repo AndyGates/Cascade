@@ -12,6 +12,9 @@ public:
 	SourceNode(const ci::audio::MonitorSpectralNodeRef& audioSpectralMonitor);
 	virtual void ProcessImpl() override;
 
+	static constexpr auto OUT_VOLUME	= "Volume";
+	static constexpr auto OUT_SPECTRUM	= "Spectrum";
+
 private:
 	size_t _volumeParameterIndex;
 	size_t _spectrumParameterIndex;

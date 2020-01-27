@@ -20,6 +20,8 @@ public:
 	void Render() override;
 	void RenderInstance(glm::mat4 transform = {});
 
+	static constexpr auto IN_GEOMETRY = "Geometry";
+
 private:
 	ci::gl::FboRef							  _renderTarget;
 	const ci::CameraOrtho&					  _camera;

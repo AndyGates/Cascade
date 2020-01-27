@@ -131,9 +131,6 @@
     <ClInclude Include="include\Node\Effect\PostProcessNode.h">
       <Filter>Header Files\Node\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="include\Node\RenderNode.h">
-      <Filter>Header Files\Node</Filter>
-    </ClInclude>
     <ClInclude Include="include\Node\Effect\TiltShiftNode.h">
       <Filter>Header Files\Node\Effect</Filter>
     </ClInclude>
@@ -156,6 +153,9 @@
       <Filter>Header Files\Node\Geometry</Filter>
     </ClInclude>
     <ClInclude Include="include\Node\Core\IRenderNode.h">
+      <Filter>Header Files\Node\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Node\Core\RenderNode.h">
       <Filter>Header Files\Node\Core</Filter>
     </ClInclude>
   </ItemGroup>

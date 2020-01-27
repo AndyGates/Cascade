@@ -2,6 +2,7 @@
 
 #include "Node/Core/Node.h"
 #include "Node/Core/IRenderNode.h"
+
 #include "cinder/gl/gl.h"
 
 namespace cascade {
@@ -16,6 +17,9 @@ public:
 
 	void ProcessImpl() override;
 	void Render() override;
+
+	static constexpr auto IN_DISTANCE	= "Distance";
+	static constexpr auto IN_BLUR		= "Blur";
 
 private:
 	size_t _distanceParameterIndex;

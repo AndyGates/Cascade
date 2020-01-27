@@ -49,20 +49,20 @@ void CascadeApp::keyDown(KeyEvent event)
 
 void CascadeApp::setupGraphics()
 {
+	int height = getWindowHeight();
+	int width = getWindowWidth();
+
+	gl::Fbo::Format fmt;
+	fmt.samples(16);
+
 	try
 	{
-		int height = getWindowHeight();
-		int width = getWindowWidth();
-
-		gl::Fbo::Format fmt;
-		fmt.samples(16);
-
 		_primaryRenderTexture = gl::Fbo::create(width, height, fmt);
 		_secondaryRenderTexture = gl::Fbo::create(width, height, fmt);
 	}
 	catch (Exception &ex)
 	{
-		CI_LOG_E("Error creating render texture: " << ex.what());
+		CI_LOG_EXCEPTION("Error creating render texture: ", ex);
 	}
 }
 
@@ -103,15 +103,22 @@ void CascadeApp::setupNodes()
 	//Post Process
 	auto tiltShift = std::make_unique<node::TiltShiftNode>(_secondaryRenderTexture, _primaryRenderTexture, 0.004f, 0.2f);
 	auto chromaticAberrationNode = std::make_unique<node::ChromaticAberrationNode>(nullptr, _primaryRenderTexture);
-	
-	outerGeomInstance->ConnectInput(*outerGeom, "Geometry", "GeometryIn");
-	outerRender->ConnectInput(*outerGeomInstance, "GeometryOut", "Geometry");
 
-	innerRender->ConnectInput(*innerGeom, "Geometry", "Geometry");
 
-	multiply->ConnectInput(*sourceNode, "Volume", node::MultiplyNode<float>::IN_INPUT);
-	chromaticAberrationNode->ConnectInput(*multiply, node::MultiplyNode<float>::OUT_VALUE, "Amount");
+	//Connect nodes
+	//Outer squares
+	outerGeomInstance->ConnectInput(*outerGeom, node::GeometrySourceNode::OUT_GEOMETRY, node::GeometryInstanceNode::IN_GEOMETRY);
+	outerRender->ConnectInput(*outerGeomInstance, node::GeometryInstanceNode::OUT_GEOMETRY, node::RenderNode::IN_GEOMETRY);
 
+	//Inner square
+	innerRender->ConnectInput(*innerGeom, node::GeometrySourceNode::OUT_GEOMETRY, node::RenderNode::IN_GEOMETRY);
+
+	//Post Effects
+	multiply->ConnectInput(*sourceNode, node::SourceNode::OUT_VOLUME, node::MultiplyNode<float>::IN_INPUT);
+	chromaticAberrationNode->ConnectInput(*multiply, node::MultiplyNode<float>::OUT_VALUE, node::ChromaticAberrationNode::IN_AMOUNT);
+
+
+	//Add nodes to node system
 	_nodeSystem.AddNode(std::move(sourceNode));
 	_nodeSystem.AddNode(std::move(multiply));
 
@@ -128,10 +135,21 @@ void CascadeApp::setupNodes()
 
 void CascadeApp::setup()
 {
-
 	setupGraphics();
 	setupAudio();
-	setupNodes();
+
+	try
+	{
+		setupNodes();
+	}
+	catch (const std::exception& e)
+	{
+		/*
+			For now just log out if any node construction fails.
+			Currently this would be unable to be recovered from, but in the future we could fallback to something sensible 
+		*/
+		CI_LOG_EXCEPTION("Failed to construct nodes! ", e);
+	}
 }
 
 void CascadeApp::draw()

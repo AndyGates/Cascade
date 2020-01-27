@@ -61,13 +61,12 @@ private:
 
 		void SetValue(const Parameter& param) override
 		{
-			ParameterValue<ParameterType>& paramRef = dynamic_cast<ParameterValue<ParameterType>&>(*param._parameterValue);
 			try {
+				ParameterValue<ParameterType>& paramRef = dynamic_cast<ParameterValue<ParameterType>&>(*param._parameterValue);
 				_value = *paramRef.GetValue();
 			}
 			catch (const std::bad_cast&)
 			{
-				//TODO Throw custom exception here
 				throw std::invalid_argument("Could not set parameter value, type mismatch");
 			}
 		};
@@ -93,7 +92,6 @@ void Parameter::SetValue(const ParameterType& value)
 	}
 	catch (const std::bad_cast&)
 	{
-		//TODO Throw custom exception here
 		throw std::invalid_argument("Could not set parameter value, type mismatch");
 	}
 };
@@ -108,7 +106,6 @@ ParameterType* Parameter::GetValue()
 	}
 	catch (const std::bad_cast&)
 	{
-		//TODO Throw custom exception here
 		throw std::invalid_argument("Could not get parameter value, type mismatch");
 	}
 }

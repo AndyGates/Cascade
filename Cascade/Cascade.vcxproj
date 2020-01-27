@@ -39,6 +39,7 @@
     <ClInclude Include="include\CascadeApp.h" />
     <ClInclude Include="include\Data\GeometryDataObject.h" />
     <ClInclude Include="include\Node\Core\IRenderNode.h" />
+    <ClInclude Include="include\Node\Core\RenderNode.h" />
     <ClInclude Include="include\Node\Effect\ChromaticAberrationNode.h" />
     <ClInclude Include="include\Node\Core\Connection.h" />
     <ClInclude Include="include\Node\Core\Node.h" />
@@ -48,7 +49,6 @@
     <ClInclude Include="include\Node\Effect\KaleidoscopeNode.h" />
     <ClInclude Include="include\Node\Geometry\GeometryInstanceNode.h" />
     <ClInclude Include="include\Node\Geometry\GeometrySourceNode.h" />
-    <ClInclude Include="include\Node\RenderNode.h" />
     <ClInclude Include="include\Node\Source\SourceNode.h" />
     <ClInclude Include="include\Node\Effect\PostProcessNode.h" />
     <ClInclude Include="include\Node\Effect\TiltShiftNode.h" />

@@ -2,22 +2,13 @@
 #include "cinder/Filesystem.h"
 #include "cinder/app/App.h"
 
-#include <exception>
-
 namespace cascade {
 namespace node {
 
 PostProcessNode::PostProcessNode(gl::FboRef renderTarget, gl::FboRef textureBuffer, const std::string& pixelShaderAsset) :
 	_renderTarget(renderTarget), _textureBuffer(textureBuffer)
 {
-	try
-	{
-		_prog = gl::GlslProg::create(cinder::app::loadAsset("Passthrough.vert"), cinder::app::loadAsset(pixelShaderAsset));
-	}
-	catch (ci::Exception &ex)
-	{
-		throw std::invalid_argument("Failed to create pixel shader");
-	}
+	_prog = gl::GlslProg::create(cinder::app::loadAsset("Passthrough.vert"), cinder::app::loadAsset(pixelShaderAsset));
 }
 
 void PostProcessNode::Render()

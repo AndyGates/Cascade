@@ -6,7 +6,7 @@ namespace node {
 
 ElapsedTimeNode::ElapsedTimeNode()
 {
-	_timeParameterIndex = AddParameter<float>(ParameterDirection::Output, "Time");
+	_timeParameterIndex = AddParameter<float>(ParameterDirection::Output, OUT_TIME);
 }
 
 void ElapsedTimeNode::ProcessImpl()

@@ -12,6 +12,8 @@ public:
 	GeometrySourceNode();
 	virtual void ProcessImpl() override;
 
+	static constexpr auto OUT_GEOMETRY = "Geometry";
+
 private:
 	data::GeometryDataObject _geometryData;
 	size_t					 _geometryParameterIndex;

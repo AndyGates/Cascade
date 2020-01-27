@@ -11,6 +11,8 @@ public:
 	KaleidoscopeNode(gl::FboRef renderTarget, gl::FboRef textureBuffer, int amount = 3);
 	void ProcessImpl() override;
 
+	static constexpr auto IN_AMOUNT = "Amount";
+
 protected:
 	void SetUniforms() override;
 

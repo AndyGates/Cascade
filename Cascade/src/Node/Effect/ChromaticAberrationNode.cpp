@@ -7,7 +7,7 @@ ChromaticAberrationNode::ChromaticAberrationNode(gl::FboRef renderTarget, gl::Fb
 _amountParameterIndex(),
 _amount(amount)
 {
-	_amountParameterIndex = AddParameter<float>(ParameterDirection::Input, "Amount", amount);
+	_amountParameterIndex = AddParameter<float>(ParameterDirection::Input, IN_AMOUNT, amount);
 }
 
 void ChromaticAberrationNode::ProcessImpl()

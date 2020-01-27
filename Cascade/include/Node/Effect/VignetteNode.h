@@ -12,6 +12,8 @@ public:
 
 	void ProcessImpl() override;
 
+	static constexpr auto IN_AMOUNT = "Amount";
+
 protected:
 	void SetUniforms() override;
 

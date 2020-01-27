@@ -11,6 +11,11 @@ class GeometryInstanceNode : public Node
 public:
 	GeometryInstanceNode();
 	void ProcessImpl() override;
+	
+	static constexpr auto IN_TEMP		= "TempIn";
+	static constexpr auto IN_GEOMETRY	= "GeometryIn";
+
+	static constexpr auto OUT_GEOMETRY	= "GeometryOut";
 
 private:
 	std::shared_ptr<data::GeometryDataObject> _geometryData;

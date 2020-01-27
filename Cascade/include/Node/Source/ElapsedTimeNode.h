@@ -11,6 +11,8 @@ public:
 	ElapsedTimeNode();
 	virtual void ProcessImpl() override;
 
+	static constexpr auto OUT_TIME = "Time";
+
 private:
 	size_t _timeParameterIndex;
 };

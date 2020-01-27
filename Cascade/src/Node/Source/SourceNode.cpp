@@ -6,8 +6,8 @@ namespace node {
 SourceNode::SourceNode(const ci::audio::MonitorSpectralNodeRef& audioSpectralMonitor) :
 	_monitorSpectralNode(audioSpectralMonitor)
 {
-	_volumeParameterIndex = AddParameter<float>(ParameterDirection::Output, "Volume");
-	_spectrumParameterIndex = AddParameter<std::vector<float>>(ParameterDirection::Output, "Spectrum");
+	_volumeParameterIndex = AddParameter<float>(ParameterDirection::Output, OUT_VOLUME);
+	_spectrumParameterIndex = AddParameter<std::vector<float>>(ParameterDirection::Output, OUT_SPECTRUM);
 }
 
 void SourceNode::ProcessImpl()

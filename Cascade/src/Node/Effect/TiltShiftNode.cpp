@@ -1,6 +1,5 @@
 #include "Node/Effect/TiltShiftNode.h"
 #include "cinder/app/App.h"
-#include <exception>
 
 namespace cascade {
 namespace node {
@@ -13,16 +12,8 @@ _distance(distance),
 _blurRadiusParameterIndex(),
 _blurRadius(blurRadius)
 {
-	try
-	{
-		_prog = gl::GlslProg::create(cinder::app::loadAsset("Passthrough.vert"), cinder::app::loadAsset("TiltShift.frag"));
-	}
-	catch (cinder::Exception &ex)
-	{
-		throw std::invalid_argument("Failed to create pixel shader");
-	}
-
-	_distanceParameterIndex = AddParameter<float>(ParameterDirection::Input, "Distance", _distance);
+	_prog = gl::GlslProg::create(cinder::app::loadAsset("Passthrough.vert"), cinder::app::loadAsset("TiltShift.frag"));
+	_distanceParameterIndex = AddParameter<float>(ParameterDirection::Input, IN_DISTANCE, _distance);
 }
 
 void TiltShiftNode::ProcessImpl()

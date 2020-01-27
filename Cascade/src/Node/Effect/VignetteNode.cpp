@@ -8,7 +8,7 @@ _amountParameterIndex(),
 _resolution(resolution),
 _amount(amount)
 {
-	_amountParameterIndex = AddParameter<float>(ParameterDirection::Input, "Amount", _amount);
+	_amountParameterIndex = AddParameter<float>(ParameterDirection::Input, IN_AMOUNT, _amount);
 }
 
 void VignetteNode::ProcessImpl()

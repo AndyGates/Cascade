@@ -37,8 +37,6 @@ protected:
 
 	std::vector<bool> _inputConnected;
 
-	//Maybe move this and parameter management to a separate object
-	//Like "ParameterSet"?? 
 	std::vector<Connection> _inputConnections;
 	
 	template <class ParameterType>

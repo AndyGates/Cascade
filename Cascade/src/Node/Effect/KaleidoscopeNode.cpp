@@ -7,7 +7,7 @@ KaleidoscopeNode::KaleidoscopeNode(gl::FboRef renderTarget, gl::FboRef textureBu
 _amountParameterIndex(),
 _amount(amount)
 {
-	_amountParameterIndex = AddParameter<int>(ParameterDirection::Input, "Amount", amount);
+	_amountParameterIndex = AddParameter<int>(ParameterDirection::Input, IN_AMOUNT, amount);
 }
 
 void KaleidoscopeNode::ProcessImpl()
