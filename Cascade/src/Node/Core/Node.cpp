@@ -23,7 +23,7 @@ bool Node::ConnectInput(Node& other, const std::string & otherOutputName, const 
 	return false;
 }
 
-size_t Node::GetParameterIndex(const ParameterDirection direction, const std::string & name) const
+size_t Node::GetParameterIndex(ParameterDirection direction, const std::string & name) const
 {
 	size_t index = 0;
 
@@ -50,17 +50,19 @@ void Node::Process()
 			//Make sure we recursively process each input connection before this one
 			c->OutputNode->Process();
 
-			auto outParam = c->OutputNode->GetParameter(ParameterDirection::Output, c->OutputIndex);
+			const Parameter& outParam = c->OutputNode->GetParameter(ParameterDirection::Output, c->OutputIndex);
 
 			//Pass the in the parameter so the value can be recieved in a context where the value type is known
-			_inputs[c->InputIndex]->SetValue(outParam);
+			_inputs[c->InputIndex].SetValue(outParam);
 		}
 
 		ProcessImpl();
+
+		_processState = ProcessState::ProcessComplete;
 	}
 }
 
-std::shared_ptr<Parameter> Node::GetParameter(const ParameterDirection direction, size_t index)
+const Parameter& Node::GetParameter(ParameterDirection direction, size_t index)
 {
 	//TODO Checks here
 	if (direction == ParameterDirection::Input)

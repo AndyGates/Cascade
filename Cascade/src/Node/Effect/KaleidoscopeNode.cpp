@@ -14,7 +14,7 @@ void KaleidoscopeNode::ProcessImpl()
 {
 	if (_inputConnected[_amountParameterIndex])
 	{
-		auto ptr = _inputs[_amountParameterIndex]->GetValue<int>();
+		auto ptr = _inputs[_amountParameterIndex].GetValue<int>();
 		_amount = *ptr;
 	}
 }

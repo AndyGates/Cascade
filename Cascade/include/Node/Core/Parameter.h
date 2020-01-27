@@ -36,9 +36,9 @@ public:
 	~Parameter() { }
 
 
-	void SetValue(std::shared_ptr<Parameter> parameter)
+	void SetValue(const Parameter& parameter)
 	{
-		_parameterValue->SetValue(*parameter);
+		_parameterValue->SetValue(parameter);
 	};
 
 	template <class ParameterType>

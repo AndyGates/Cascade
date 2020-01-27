@@ -34,9 +34,14 @@ size_t NodeSystem::AddNode(std::unique_ptr<Node> node)
 
 void NodeSystem::Process()
 {
+	//A bit ham fisted at the moment
+	//Nodes process recursively backwards so we only need to trigger the end nodes. 
 	for (auto& node : _nodes)
 	{
-		node->Process();
+		if (node->IsOutputNode())
+		{
+			node->Process();
+		}
 	}
 
 	//Mark the nodes as complete, reset for next cycle

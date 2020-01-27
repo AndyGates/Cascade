@@ -17,10 +17,10 @@ void GeometryInstanceNode::ProcessImpl()
 {
 	if (_inputConnected[_geometryInParameterIndex])
 	{
-		auto ptr = _inputs[_geometryInParameterIndex]->GetValue<std::shared_ptr<data::GeometryDataObject>>();
+		auto ptr = _inputs[_geometryInParameterIndex].GetValue<std::shared_ptr<data::GeometryDataObject>>();
 		_geometryData = *ptr;
 
-		_outputs[_geometryInParameterIndex]->SetValue(_geometryData);
+		_outputs[_geometryInParameterIndex].SetValue(_geometryData);
 
 		int count = 32;
 		float angleDelta = (2.0*M_PI) / static_cast<float>(count);

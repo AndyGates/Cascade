@@ -41,19 +41,19 @@ void MultiplyNode<T>::ProcessImpl()
 
 	if (_inputConnected[_multiplierParameterIndex])
 	{
-		auto ptr = _inputs[_multiplierParameterIndex]->GetValue<T>();
+		auto ptr = _inputs[_multiplierParameterIndex].GetValue<T>();
 		_multiplier = *ptr;
 	}
 
 	if (_inputConnected[_inputParameterIndex])
 	{
-		auto ptr = _inputs[_inputParameterIndex]->GetValue<T>();
+		auto ptr = _inputs[_inputParameterIndex].GetValue<T>();
 		input = *ptr;
 	}
 
 	value = input * _multiplier;
 
-	_outputs[_valueParameterIndex]->SetValue(value);
+	_outputs[_valueParameterIndex].SetValue(value);
 }
 
 

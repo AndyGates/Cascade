@@ -18,8 +18,8 @@ public:
 	//Expose index variables from node
 	bool ConnectInput(Node& other, const std::string& otherOutputName, const std::string& inputName);
 
-	size_t GetParameterIndex(const ParameterDirection direction, const std::string& name) const;
-	std::shared_ptr<Parameter> GetParameter(const ParameterDirection direction, size_t index);
+	size_t GetParameterIndex(ParameterDirection direction, const std::string& name) const;
+	const Parameter& GetParameter(ParameterDirection direction, size_t index);
 
 	//If the node has no outputs, we can class it as an output node. This means nothing is depending on its process result
 	bool IsOutputNode() const { return _outputs.empty(); }
@@ -28,8 +28,8 @@ public:
 	void ProcessComplete() { _processState = ProcessState::NotProcessed; };
 
 protected:
-	std::vector<std::shared_ptr<Parameter>> _inputs;
-	std::vector<std::shared_ptr<Parameter>> _outputs;
+	std::vector<Parameter> _inputs;
+	std::vector<Parameter> _outputs;
 
 	std::vector<std::string> _inputNames;
 	std::vector<std::string> _outputNames;
@@ -66,7 +66,7 @@ size_t Node::AddParameter(ParameterDirection dir, const std::string & name, cons
 
 	if (dir == ParameterDirection::Input)
 	{
-		_inputs.push_back(std::make_shared<Parameter>(initialValue));
+		_inputs.push_back(Parameter(initialValue));
 		_inputNames.push_back(name);
 		_inputConnected.push_back(false);
 
@@ -76,7 +76,7 @@ size_t Node::AddParameter(ParameterDirection dir, const std::string & name, cons
 	}
 	else
 	{
-		_outputs.push_back(std::make_shared<Parameter>(initialValue));
+		_outputs.push_back(Parameter(initialValue));
 		_outputNames.push_back(name);
 
 		assert(_outputs.size() == _outputNames.size());

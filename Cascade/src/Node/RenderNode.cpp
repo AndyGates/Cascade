@@ -18,7 +18,7 @@ void RenderNode::ProcessImpl()
 {
 	if (_inputConnected[_geometryParameterIndex])
 	{
-		auto ptr = _inputs[_geometryParameterIndex]->GetValue<std::shared_ptr<data::GeometryDataObject>>();
+		auto ptr = _inputs[_geometryParameterIndex].GetValue<std::shared_ptr<data::GeometryDataObject>>();
 		_geometryData = *ptr;
 	}
 }

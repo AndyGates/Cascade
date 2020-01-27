@@ -15,7 +15,7 @@ void VignetteNode::ProcessImpl()
 {
 	if (_inputConnected[_amountParameterIndex])
 	{
-		auto ptr = _inputs[_amountParameterIndex]->GetValue<float>();
+		auto ptr = _inputs[_amountParameterIndex].GetValue<float>();
 		_amount = *ptr;
 	}
 }

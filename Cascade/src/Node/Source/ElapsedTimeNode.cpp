@@ -12,7 +12,7 @@ ElapsedTimeNode::ElapsedTimeNode()
 void ElapsedTimeNode::ProcessImpl()
 {
 	float time = ci::app::getElapsedSeconds();
-	_outputs[_timeParameterIndex]->SetValue(time);
+	_outputs[_timeParameterIndex].SetValue(time);
 }
 
 }

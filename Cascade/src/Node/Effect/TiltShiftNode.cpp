@@ -29,7 +29,7 @@ void TiltShiftNode::ProcessImpl()
 {
 	if (_inputConnected[_distanceParameterIndex])
 	{
-		auto ptr = _inputs[_distanceParameterIndex]->GetValue<float>();
+		auto ptr = _inputs[_distanceParameterIndex].GetValue<float>();
 		_distance = *ptr;
 	}
 }
