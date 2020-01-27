@@ -38,7 +38,7 @@ protected:
 
 	//Maybe move this and parameter management to a separate object
 	//Like "ParameterSet"?? 
-	std::vector<std::unique_ptr<Connection>> _inputConnections;
+	std::vector<Connection> _inputConnections;
 	
 	template <class ParameterType>
 	size_t AddParameter(ParameterDirection dir, const std::string& name, const ParameterType& initialValue = {});

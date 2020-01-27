@@ -17,7 +17,7 @@ bool Node::ConnectInput(Node& other, const std::string & otherOutputName, const 
 	if (!_inputConnected[inputIndex])
 	{
 		size_t otherOutputIndex = other.GetParameterIndex(ParameterDirection::Output, otherOutputName);
-		_inputConnections.push_back(std::make_unique<Connection>(&other, otherOutputIndex, inputIndex));
+		_inputConnections.push_back(Connection(&other, otherOutputIndex, inputIndex));
 		_inputConnected[inputIndex] = true;
 	}
 	return false;
@@ -45,15 +45,15 @@ void Node::Process()
 
 		for (auto& c : _inputConnections)
 		{
-			assert(c->OutputNode != nullptr);
+			assert(c.OutputNode != nullptr);
 
 			//Make sure we recursively process each input connection before this one
-			c->OutputNode->Process();
+			c.OutputNode->Process();
 
-			const Parameter& outParam = c->OutputNode->GetParameter(ParameterDirection::Output, c->OutputIndex);
+			const Parameter& outParam = c.OutputNode->GetParameter(ParameterDirection::Output, c.OutputIndex);
 
 			//Pass the in the parameter so the value can be recieved in a context where the value type is known
-			_inputs[c->InputIndex].SetValue(outParam);
+			_inputs[c.InputIndex].SetValue(outParam);
 		}
 
 		ProcessImpl();
