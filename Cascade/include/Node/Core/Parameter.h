@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <stdexcept>
+#include <cassert>
 
 namespace cascade {
 namespace node {
@@ -33,16 +34,26 @@ public:
 	}
 	
 	//Set value via reference to another parameter
-	void SetValue(const Parameter& parameter);
+	void SetValue(const Parameter& parameter)
+	{
+		_parameterValue->SetValue(parameter);
+	}
 
 	//Set value directly
 	template <class ParameterType>
-	void SetValue(const ParameterType& value);
+	void SetValue(const ParameterType& value)
+	{
+		_parameterValue->SetValue(value);
+	};
 
 	template <class ParameterType>
 	ParameterType* GetValue();
+
+	const std::type_info& GetType() const { return _parameterValue->GetType(); }
+
 	
 private:
+	//Wrap the value in a wrapper class so that Parameter can be handled independent of the type. 
 	class IParameterValue
 	{
 	public:
@@ -63,11 +74,17 @@ private:
 		{
 			try {
 				ParameterValue<ParameterType>& paramRef = dynamic_cast<ParameterValue<ParameterType>&>(*param._parameterValue);
-				_value = *paramRef.GetValue();
+				SetValue(*paramRef.GetValue());
 			}
 			catch (const std::bad_cast&)
 			{
-				throw std::invalid_argument("Could not set parameter value, type mismatch");
+				//Add some helpful type info to the exception and rethrow
+				std::string message = "Could not set parameter value, type mismatch ";
+				message += std::string(param.GetType().name());
+				message += " -> ";
+				message += std::string(GetType().name());
+
+				std::throw_with_nested(std::invalid_argument(message));
 			}
 		};
 
@@ -83,31 +100,13 @@ private:
 };
 
 template <class ParameterType>
-void Parameter::SetValue(const ParameterType& value)
-{
-	try
-	{
-		ParameterValue<ParameterType>& paramRef = dynamic_cast<ParameterValue<ParameterType>&>(*_parameterValue);
-		return paramRef.SetValue(value);
-	}
-	catch (const std::bad_cast&)
-	{
-		throw std::invalid_argument("Could not set parameter value, type mismatch");
-	}
-};
-
-template <class ParameterType>
 ParameterType* Parameter::GetValue()
 {
-	try
-	{
-		ParameterValue<ParameterType>& paramRef = dynamic_cast<ParameterValue<ParameterType>&>(*_parameterValue);
-		return paramRef.GetValue();
-	}
-	catch (const std::bad_cast&)
-	{
-		throw std::invalid_argument("Could not get parameter value, type mismatch");
-	}
+	ParameterValue<ParameterType>* paramPtr = static_cast<ParameterValue<ParameterType>*>(_parameterValue.get());
+	
+	assert(paramPtr != nullptr);
+
+	return paramPtr->GetValue();
 }
 
 }

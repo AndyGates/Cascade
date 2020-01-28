@@ -19,8 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\Node\Source\ElapsedTimeNode.h" />
-    <ClCompile Include="src\Node\Core\Parameter.cpp" />
     <ClCompile Include="src\Node\Core\RenderNode.cpp" />
     <ClCompile Include="src\Node\Effect\ChromaticAberrationNode.cpp" />
     <ClCompile Include="src\Node\Core\NodeSystem.cpp" />
@@ -28,10 +26,10 @@
     <ClCompile Include="src\Node\Effect\PostProcessNode.cpp" />
     <ClCompile Include="src\Node\Geometry\GeometryInstanceNode.cpp" />
     <ClCompile Include="src\Node\Geometry\GeometrySourceNode.cpp" />
+    <ClCompile Include="src\Node\Source\ElapsedTimeNode.cpp" />
     <ClCompile Include="src\Node\Source\SourceNode.cpp" />
     <ClCompile Include="src\CascadeApp.cpp" />
     <ClCompile Include="src\Node\Core\Node.cpp" />
-    <ClCompile Include="src\Node\Source\ElapsedTimeNode.cpp" />
     <ClCompile Include="src\Node\Effect\TiltShiftNode.cpp" />
     <ClCompile Include="src\Node\Effect\VignetteNode.cpp" />
   </ItemGroup>
@@ -49,6 +47,7 @@
     <ClInclude Include="include\Node\Effect\KaleidoscopeNode.h" />
     <ClInclude Include="include\Node\Geometry\GeometryInstanceNode.h" />
     <ClInclude Include="include\Node\Geometry\GeometrySourceNode.h" />
+    <ClInclude Include="include\Node\Source\ElapsedTimeNode.h" />
     <ClInclude Include="include\Node\Source\SourceNode.h" />
     <ClInclude Include="include\Node\Effect\PostProcessNode.h" />
     <ClInclude Include="include\Node\Effect\TiltShiftNode.h" />

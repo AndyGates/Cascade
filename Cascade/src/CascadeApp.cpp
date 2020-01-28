@@ -92,7 +92,7 @@ void CascadeApp::setupNodes()
 	auto timeNode = std::make_unique<node::ElapsedTimeNode>();
 
 	//Data nodes
-	auto multiply = std::make_unique<node::MultiplyNode<float>>(0.02f);
+	auto multiply = std::make_unique<node::MultiplyNode<float>>(0.01f);
 	auto outerMultiply = std::make_unique<node::MultiplyNode<float>>(0.02f);
 	auto midMultiply = std::make_unique<node::MultiplyNode<float>>(-0.005f);
 
@@ -128,7 +128,8 @@ void CascadeApp::setupNodes()
 	midRender->ConnectInput(*midGeomInstance, node::GeometryInstanceNode::OUT_GEOMETRY, node::RenderNode::IN_GEOMETRY);
 
 	//Inner square
-	innerRender->ConnectInput(*innerGeom, node::GeometrySourceNode::OUT_GEOMETRY, node::RenderNode::IN_GEOMETRY);
+	//innerRender->ConnectInput(*innerGeom, node::GeometrySourceNode::OUT_GEOMETRY, node::RenderNode::IN_GEOMETRY);
+	innerRender->ConnectInput(*midMultiply, node::MultiplyNode<float>::OUT_VALUE, node::RenderNode::IN_GEOMETRY);
 
 	//Post Effects
 	multiply->ConnectInput(*sourceNode, node::SourceNode::OUT_VOLUME, node::MultiplyNode<float>::IN_INPUT);
@@ -204,7 +205,17 @@ void CascadeApp::resize()
 
 void CascadeApp::update()
 {
-	_nodeSystem.Process();
+	try
+	{
+		_nodeSystem.Process();
+	}
+	catch (const std::exception& ex)
+	{
+		CI_LOG_EXCEPTION("Node update failed", ex);
+		
+		//rethrow and let fail for now
+		throw;
+	}
 
 	_spectrumData = _monitorSpectralNode->getMagSpectrum();
 	_scale = _monitorSpectralNode->getVolume();
