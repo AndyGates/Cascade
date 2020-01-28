@@ -8,6 +8,7 @@
 #include "Node/Effect/TiltShiftNode.h"
 #include "Node/Data/MultiplyNode.h"
 #include "Node/Effect/KaleidoscopeNode.h"
+#include "Node/Source/ElapsedTimeNode.h"
 
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
@@ -88,14 +89,22 @@ void CascadeApp::setupNodes()
 
 	//Source nodes
 	auto sourceNode = std::make_unique<node::SourceNode>(_monitorSpectralNode);
+	auto timeNode = std::make_unique<node::ElapsedTimeNode>();
 
 	//Data nodes
 	auto multiply = std::make_unique<node::MultiplyNode<float>>(0.02f);
-	
+	auto outerMultiply = std::make_unique<node::MultiplyNode<float>>(0.02f);
+	auto midMultiply = std::make_unique<node::MultiplyNode<float>>(-0.005f);
+
 	//Geometry
 	auto outerGeom = std::make_unique<node::GeometrySourceNode>();
-	auto outerGeomInstance = std::make_unique<node::GeometryInstanceNode>();
+	auto outerGeomInstance = std::make_unique<node::GeometryInstanceNode>(32, 3.0f);
 	auto outerRender = std::make_unique<node::RenderNode>(_camera, _primaryRenderTexture);
+
+	//Geometry
+	auto midGeom = std::make_unique<node::GeometrySourceNode>();
+	auto midGeomInstance = std::make_unique<node::GeometryInstanceNode>(24, 2.0f);
+	auto midRender = std::make_unique<node::RenderNode>(_camera, _primaryRenderTexture);
 
 	auto innerGeom = std::make_unique<node::GeometrySourceNode>();
 	auto innerRender = std::make_unique<node::RenderNode>(_camera, _primaryRenderTexture);
@@ -107,8 +116,16 @@ void CascadeApp::setupNodes()
 
 	//Connect nodes
 	//Outer squares
+	outerMultiply->ConnectInput(*sourceNode, node::SourceNode::OUT_VOLUME, node::MultiplyNode<float>::OUT_VALUE);
 	outerGeomInstance->ConnectInput(*outerGeom, node::GeometrySourceNode::OUT_GEOMETRY, node::GeometryInstanceNode::IN_GEOMETRY);
+	outerGeomInstance->ConnectInput(*outerMultiply, node::MultiplyNode<float>::OUT_VALUE, node::GeometryInstanceNode::IN_TEMP);
 	outerRender->ConnectInput(*outerGeomInstance, node::GeometryInstanceNode::OUT_GEOMETRY, node::RenderNode::IN_GEOMETRY);
+
+	//Mid squares
+	midMultiply->ConnectInput(*sourceNode, node::SourceNode::OUT_VOLUME, node::MultiplyNode<float>::OUT_VALUE);
+	midGeomInstance->ConnectInput(*midGeom, node::GeometrySourceNode::OUT_GEOMETRY, node::GeometryInstanceNode::IN_GEOMETRY);
+	midGeomInstance->ConnectInput(*midMultiply, node::MultiplyNode<float>::OUT_VALUE, node::GeometryInstanceNode::IN_TEMP);
+	midRender->ConnectInput(*midGeomInstance, node::GeometryInstanceNode::OUT_GEOMETRY, node::RenderNode::IN_GEOMETRY);
 
 	//Inner square
 	innerRender->ConnectInput(*innerGeom, node::GeometrySourceNode::OUT_GEOMETRY, node::RenderNode::IN_GEOMETRY);
@@ -119,12 +136,20 @@ void CascadeApp::setupNodes()
 
 
 	//Add nodes to node system
+	_nodeSystem.AddNode(std::move(timeNode));
 	_nodeSystem.AddNode(std::move(sourceNode));
+
 	_nodeSystem.AddNode(std::move(multiply));
+	_nodeSystem.AddNode(std::move(outerMultiply));
+	_nodeSystem.AddNode(std::move(midMultiply));
 
 	_nodeSystem.AddNode(std::move(outerGeom));
 	_nodeSystem.AddNode(std::move(outerGeomInstance));
 	_nodeSystem.AddNode(std::move(outerRender));
+
+	_nodeSystem.AddNode(std::move(midGeom));
+	_nodeSystem.AddNode(std::move(midGeomInstance));
+	_nodeSystem.AddNode(std::move(midRender));
 
 	_nodeSystem.AddNode(std::move(innerGeom));
 	_nodeSystem.AddNode(std::move(innerRender));

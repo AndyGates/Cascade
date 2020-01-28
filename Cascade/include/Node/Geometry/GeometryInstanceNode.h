@@ -9,7 +9,7 @@ namespace node {
 class GeometryInstanceNode : public Node
 {
 public:
-	GeometryInstanceNode();
+	GeometryInstanceNode(uint32_t instanceCount, float radius);
 	void ProcessImpl() override;
 	
 	static constexpr auto IN_TEMP		= "TempIn";
@@ -24,6 +24,10 @@ private:
 	size_t _tempInParameterIndex;
 
 	size_t _geometryOutParameterIndex;
+
+	uint32_t _instanceCount;
+	float _radius;
+	float _angleCumulative;
 };
 
 }
