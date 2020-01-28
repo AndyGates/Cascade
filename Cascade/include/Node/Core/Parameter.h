@@ -73,14 +73,11 @@ private:
 
 		void SetValue(const Parameter& param) override
 		{
-			//We check at connection time so are guaranteeing this to be valid. 
 			assert(GetType() == param.GetType());
+			assert(param._parameterValue != nullptr);
 
-			auto paramPtr = dynamic_cast<ParameterValue<ParameterType>*>(param._parameterValue.get());
-			
-			assert(paramPtr != nullptr);
-			
-			SetValue(paramPtr->GetValue());
+			ParameterValue<ParameterType>& paramRef = static_cast<ParameterValue<ParameterType>&>(*param._parameterValue);
+			SetValue(*paramRef.GetValue());
 		};
 
 		ParameterType* GetValue() { return &_value; } 
