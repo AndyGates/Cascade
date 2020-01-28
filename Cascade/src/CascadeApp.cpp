@@ -116,13 +116,13 @@ void CascadeApp::setupNodes()
 
 	//Connect nodes
 	//Outer squares
-	outerMultiply->ConnectInput(*sourceNode, node::SourceNode::OUT_VOLUME, node::MultiplyNode<float>::OUT_VALUE);
+	outerMultiply->ConnectInput(*sourceNode, node::SourceNode::OUT_VOLUME, node::MultiplyNode<float>::IN_INPUT);
 	outerGeomInstance->ConnectInput(*outerGeom, node::GeometrySourceNode::OUT_GEOMETRY, node::GeometryInstanceNode::IN_GEOMETRY);
 	outerGeomInstance->ConnectInput(*outerMultiply, node::MultiplyNode<float>::OUT_VALUE, node::GeometryInstanceNode::IN_TEMP);
 	outerRender->ConnectInput(*outerGeomInstance, node::GeometryInstanceNode::OUT_GEOMETRY, node::RenderNode::IN_GEOMETRY);
 
 	//Mid squares
-	midMultiply->ConnectInput(*sourceNode, node::SourceNode::OUT_VOLUME, node::MultiplyNode<float>::OUT_VALUE);
+	midMultiply->ConnectInput(*sourceNode, node::SourceNode::OUT_VOLUME, node::MultiplyNode<float>::IN_INPUT);
 	midGeomInstance->ConnectInput(*midGeom, node::GeometrySourceNode::OUT_GEOMETRY, node::GeometryInstanceNode::IN_GEOMETRY);
 	midGeomInstance->ConnectInput(*midMultiply, node::MultiplyNode<float>::OUT_VALUE, node::GeometryInstanceNode::IN_TEMP);
 	midRender->ConnectInput(*midGeomInstance, node::GeometryInstanceNode::OUT_GEOMETRY, node::RenderNode::IN_GEOMETRY);

@@ -3,6 +3,7 @@
 #include <memory>
 #include <stdexcept>
 #include <cassert>
+#include "cinder/Log.h"
 
 namespace cascade {
 namespace node {
@@ -53,7 +54,7 @@ public:
 
 	
 private:
-	//Wrap the value in a wrapper class so that Parameter can be handled independent of the type. 
+	//Wrap the value in a wrapper class so that Parameter can be handled independent of the type
 	class IParameterValue
 	{
 	public:
@@ -72,23 +73,17 @@ private:
 
 		void SetValue(const Parameter& param) override
 		{
-			try {
-				ParameterValue<ParameterType>& paramRef = dynamic_cast<ParameterValue<ParameterType>&>(*param._parameterValue);
-				SetValue(*paramRef.GetValue());
-			}
-			catch (const std::bad_cast&)
-			{
-				//Add some helpful type info to the exception and rethrow
-				std::string message = "Could not set parameter value, type mismatch ";
-				message += std::string(param.GetType().name());
-				message += " -> ";
-				message += std::string(GetType().name());
+			//We check at connection time so are guaranteeing this to be valid. 
+			assert(GetType() == param.GetType());
 
-				std::throw_with_nested(std::invalid_argument(message));
-			}
+			auto paramPtr = dynamic_cast<ParameterValue<ParameterType>*>(param._parameterValue.get());
+			
+			assert(paramPtr != nullptr);
+			
+			SetValue(paramPtr->GetValue());
 		};
 
-		ParameterType* GetValue() { return &_value; }
+		ParameterType* GetValue() { return &_value; } 
 		const std::type_info& GetType() const { return _type; }
 
 	private:
@@ -102,11 +97,21 @@ private:
 template <class ParameterType>
 ParameterType* Parameter::GetValue()
 {
-	ParameterValue<ParameterType>* paramPtr = static_cast<ParameterValue<ParameterType>*>(_parameterValue.get());
+	//Check if the types match before returning the data pointer
+	//Maybe this should throw as the user is requesting invalid data
+	if (GetType() == typeid(ParameterType))
+	{
+		ParameterValue<ParameterType>* paramPtr = static_cast<ParameterValue<ParameterType>*>(_parameterValue.get());
 	
-	assert(paramPtr != nullptr);
+		assert(paramPtr != nullptr);
 
-	return paramPtr->GetValue();
+		return paramPtr->GetValue();
+	}
+	else
+	{
+		CI_LOG_E("Mismatched type requested, returning nullptr");
+		return nullptr;
+	}
 }
 
 }

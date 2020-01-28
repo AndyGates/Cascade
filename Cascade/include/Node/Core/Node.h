@@ -15,12 +15,11 @@ public:
 	Node();
 	virtual ~Node();
 
-	//Have index versions as optimisation? 
-	//Expose index variables from node
+	//This is done using string 'names' currently with the idea of making it clearer to define in a file in the future.
+	//This could be done with only indices as an optimisation
 	bool ConnectInput(Node& other, const std::string& otherOutputName, const std::string& inputName);
 
-	size_t GetParameterIndex(ParameterDirection direction, const std::string& name) const;
-	const Parameter& GetParameter(ParameterDirection direction, size_t index);
+	bool GetParameterIndex(ParameterDirection direction, const std::string& name, size_t& index);
 
 	//If the node has no outputs, we can class it as an output node. This means nothing is depending on its process result
 	bool IsOutputNode() const { return _outputs.empty(); }
@@ -29,6 +28,15 @@ public:
 	void ProcessComplete() { _processState = ProcessState::NotProcessed; };
 
 protected:
+	virtual void ProcessImpl() = 0;
+
+	template <class ParameterType>
+	size_t AddParameter(ParameterDirection dir, const std::string& name, const ParameterType& initialValue = {});
+	const Parameter& GetParameter(ParameterDirection direction, size_t index);
+
+	bool CanConnectToOutput(size_t outputIndex, const type_info& typeinfo);
+
+	//These could be consolidated into structures
 	std::vector<Parameter> _inputs;
 	std::vector<Parameter> _outputs;
 
@@ -38,11 +46,6 @@ protected:
 	std::vector<bool> _inputConnected;
 
 	std::vector<Connection> _inputConnections;
-	
-	template <class ParameterType>
-	size_t AddParameter(ParameterDirection dir, const std::string& name, const ParameterType& initialValue = {});
-
-	virtual void ProcessImpl() = 0;
 
 private:
 	enum class ProcessState
@@ -61,7 +64,7 @@ size_t Node::AddParameter(ParameterDirection dir, const std::string & name, cons
 	//Pass in a default value for whatever type we are assigning to the parameter.
 	//This enables type deduction in the constructor. Could pass in a custom initial if necessary
 	
-	size_t index = -1;
+	size_t index;
 
 	if (dir == ParameterDirection::Input)
 	{

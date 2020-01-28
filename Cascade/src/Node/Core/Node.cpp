@@ -1,5 +1,6 @@
 #include "Node/Core/Node.h"
 #include "Node/Core/Connection.h"
+#include "cinder/Log.h"
 
 namespace cascade {
 namespace node {
@@ -12,28 +13,48 @@ Node::~Node() = default;
 
 bool Node::ConnectInput(Node& other, const std::string & otherOutputName, const std::string & inputName)
 {
-	size_t inputIndex = GetParameterIndex(ParameterDirection::Input, inputName);
+	//Make sure the parameters exist and are compatible before connecting
+	size_t inputIndex;
+	bool hasInput = GetParameterIndex(ParameterDirection::Input, inputName, inputIndex);
 
-	if (!_inputConnected[inputIndex])
+	if (hasInput && !_inputConnected[inputIndex])
 	{
-		size_t otherOutputIndex = other.GetParameterIndex(ParameterDirection::Output, otherOutputName);
-		_inputConnections.push_back(Connection(&other, otherOutputIndex, inputIndex));
-		_inputConnected[inputIndex] = true;
+		size_t otherOutputIndex;
+		bool otherHasOutput = other.GetParameterIndex(ParameterDirection::Output, otherOutputName, otherOutputIndex);
+
+		//Make sure the other output exists and matches the type
+		if (otherHasOutput && other.CanConnectToOutput(otherOutputIndex, _inputs[inputIndex].GetType()))
+		{
+			_inputConnections.push_back(Connection(&other, otherOutputIndex, inputIndex));
+			_inputConnected[inputIndex] = true;
+			return true;
+		}
 	}
+
+	std::string err = "Failed to connect " + inputName + " -> " + otherOutputName;
+	CI_LOG_E(err);
+
 	return false;
 }
 
-size_t Node::GetParameterIndex(ParameterDirection direction, const std::string & name) const
+bool Node::CanConnectToOutput(size_t outputIndex, const type_info& typeinfo)
 {
-	size_t index = 0;
+	//Make sure the output exists and the types match
+	return outputIndex < _outputs.size() && typeinfo == _outputs[outputIndex].GetType();
+}
 
-	auto it = std::find(_inputNames.cbegin(), _inputNames.cend(), name);
-	if (it != _inputNames.cend())
+bool Node::GetParameterIndex(ParameterDirection direction, const std::string & name, size_t& index)
+{
+	auto nameVec = direction == ParameterDirection::Input ? _inputNames : _outputNames;
+
+	auto it = std::find(nameVec.cbegin(), nameVec.cend(), name);
+	if (it != nameVec.cend())
 	{
-		index = std::distance(_inputNames.cbegin(), it);
-	}	
-	
-	return index;
+		index = std::distance(nameVec.cbegin(), it);
+		return true;
+	}		
+
+	return false;
 }
 
 void Node::Process()
@@ -64,7 +85,6 @@ void Node::Process()
 
 const Parameter& Node::GetParameter(ParameterDirection direction, size_t index)
 {
-	//TODO Checks here
 	if (direction == ParameterDirection::Input)
 	{
 		return _inputs[index];
